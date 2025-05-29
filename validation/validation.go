@@ -1,11 +1,17 @@
 package validation
 
+type ValidationRuleConfig struct {
+	Enabled bool
+	Level   ValidationState
+	Value   any
+}
+
 type (
 	ValidationState   int
 	ValidationResult  map[string]ValidationState
 	ValidationsResult map[string]ValidationResult
-	ValidatorConfig   map[string]any
-	Validator         func(string, map[string]any) (ValidationResult, error)
+	ValidatorConfig   map[string]ValidationRuleConfig
+	Validator         func(string, ValidatorConfig) (ValidationResult, error)
 )
 
 const (

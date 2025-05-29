@@ -21,7 +21,7 @@ func runPlugins(pm *plugins.PluginManager, message string) (validation.Validatio
 
 		result, err := pm.RunPluginValidators(message)
 		if err != nil {
-			sub <- spinner.SpinnerResultMsg[validation.ValidationsResult]{Error: fmt.Errorf("could not load plugins: %s", err.Error())}
+			sub <- spinner.SpinnerResultMsg[validation.ValidationsResult]{Error: fmt.Errorf("running failed: %s", err.Error())}
 			return
 		}
 

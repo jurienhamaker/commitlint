@@ -5,9 +5,6 @@
 package plugins
 
 import (
-	"fmt"
-	"reflect"
-
 	"github.com/charmbracelet/log"
 	"github.com/jurienhamaker/commitlint/config"
 	"github.com/jurienhamaker/commitlint/validation"
@@ -34,18 +31,10 @@ func (pm *PluginManager) RunPluginValidators(message string) (results validation
 	c := config.GetConfig()
 
 	for pluginName, validator := range pm.plugins {
-		pluginConfig := c.Viper.Get(fmt.Sprintf("rules.%s", pluginName))
-
-		if reflect.ValueOf(pluginConfig).Kind() == reflect.Bool {
-			if !pluginConfig.(bool) {
-				continue
-			}
-
-			pluginConfig = map[string]any{}
-		}
-
-		result, err := validator(message, pluginConfig.(map[string]any))
-		if err != nil {
+		pluginConfig := c.Rules[pluginName]
+		result, valErr := validator(message, pluginConfig)
+		if valErr != nil {
+			err = valErr
 			break
 		}
 

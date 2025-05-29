@@ -15,13 +15,15 @@ type Lint struct {
 }
 
 func (i Lint) Run(ctx *kong.Context) error {
-	config, err := config.Load()
+	err := config.Load()
 	if err != nil {
 		utils.ReplyError(err.Error())
 		os.Exit(1)
 	}
 
-	if !config.Viper.GetBool("enabled") {
+	config := config.GetConfig()
+
+	if !config.Enabled {
 		utils.ReplyWarning("Commitlint is disabled")
 		os.Exit(0)
 	}
