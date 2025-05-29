@@ -1,2 +1,8 @@
-dist
+test
+.DS_Store
 
+dist/
+man/
+
+commitlint
+.commitlint

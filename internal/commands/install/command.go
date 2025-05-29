@@ -1,34 +1,34 @@
 package install
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/alecthomas/kong"
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/jurienhamaker/commitlint/internal/utils/styles"
+	"github.com/jurienhamaker/commitlint/internal/utils"
+	"github.com/jurienhamaker/commitlint/internal/spinner"
 )
 
 type Install struct{}
 
 func (i Install) Run(ctx *kong.Context) error {
-	m := initialModel()
+	m := spinner.CreateSpinner[bool]("Installing commitlint in your repository")
 	p := tea.NewProgram(m)
 
-	go install(m.resultChan)
+	go install(m.ResultChan)
 
 	run, err := p.Run()
 	if err != nil {
-		fmt.Println(styles.ErrorStyle("Error: "+err.Error()) + "\n")
+		utils.ReplyError(err.Error())
 		os.Exit(1)
 	}
 
-	result := run.(model).result
+	result := run.(spinner.SpinnerModel[bool]).Result
 	if result.Error != nil {
-		fmt.Println(styles.ErrorStyle("Error: "+result.Error.Error()) + "\n")
+		utils.ReplyError(result.Error.Error())
 		os.Exit(1)
 	}
 
-	fmt.Println(styles.SuccessStyle("Success: Installed commitlint in your repository") + "\n")
+	utils.ReplySuccess("Installed commitlint in your repository")
 	return nil
 }
