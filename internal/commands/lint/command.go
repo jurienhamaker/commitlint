@@ -2,7 +2,9 @@ package lint
 
 import (
 	"errors"
+	"io"
 	"os"
+	"strings"
 
 	"github.com/alecthomas/kong"
 	"github.com/jurienhamaker/commitlint/config"
@@ -22,7 +24,6 @@ func (i Lint) Run(ctx *kong.Context) error {
 	}
 
 	config := config.GetConfig()
-
 	if !config.Enabled {
 		utils.ReplyWarning("Commitlint is disabled")
 		os.Exit(0)
@@ -55,6 +56,18 @@ func (i Lint) Run(ctx *kong.Context) error {
 }
 
 func validateInput(input []string) (message string, err error) {
+	if isInputPiped() {
+		data, dataErr := io.ReadAll(os.Stdin)
+		if dataErr != nil {
+			err = dataErr
+			return
+		}
+
+		dataStr := string(data)
+		dataStr = strings.TrimRight(dataStr, "\n")
+		input = []string{dataStr}
+	}
+
 	if len(input) == 0 {
 		err = errors.New("no message given")
 		return
@@ -69,4 +82,9 @@ func validateInput(input []string) (message string, err error) {
 	}
 
 	return
+}
+
+func isInputPiped() bool {
+	stat, _ := os.Stdin.Stat()
+	return (stat.Mode() & os.ModeCharDevice) == 0
 }
