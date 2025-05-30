@@ -9,23 +9,23 @@ import (
 
 type ParseResult map[validation.ValidationState]int
 
-func parseResult(result validation.ValidationsResult, message string) (parseResult ParseResult) {
+func parseResult(result validation.ValidationsResult, message string) (total int, parseResult ParseResult) {
 	fmt.Printf("\nCommitlint result for \"%s\":\n", styles.BoldTextStyle(message))
 
 	parseResult = make(ParseResult)
 
-	for pluginName, validations := range result {
-		if len(validations) == 0 {
-			continue
-		}
+	if len(result) == 0 {
+		fmt.Printf("No rules have been checked")
+	}
 
-		fmt.Printf("  • %s:\n", styles.BoldTextStyle(pluginName))
-		for str, state := range validations {
+	for _, result := range result {
+		for str, state := range result {
+			total++
 			parseResult[state]++
 
 			textStyle := styles.ValidationStateStyle[state]
 			emoji := styles.ValidationStateEmoji[state]
-			fmt.Printf("    %s %s\n", emoji, textStyle(str))
+			fmt.Printf("  %s %s\n", emoji, textStyle(str))
 		}
 	}
 

@@ -2,12 +2,14 @@ package lint
 
 import (
 	"errors"
+	"fmt"
 	"io"
 	"os"
 	"strings"
 
 	"github.com/alecthomas/kong"
 	"github.com/jurienhamaker/commitlint/config"
+	"github.com/jurienhamaker/commitlint/internal/styles"
 	"github.com/jurienhamaker/commitlint/internal/utils"
 	"github.com/jurienhamaker/commitlint/validation"
 )
@@ -47,7 +49,19 @@ func (i Lint) Run(ctx *kong.Context) error {
 		os.Exit(1)
 	}
 
-	parseResult := parseResult(result, message)
+	total, parseResult := parseResult(result, message)
+
+	fmt.Println(
+		styles.GrayishStyle(
+			fmt.Sprintf(
+				"%d rules checked. %d success, %d warnings & %d errors\n",
+				total,
+				parseResult[validation.ValidationStateSuccess],
+				parseResult[validation.ValidationStateWarning],
+				parseResult[validation.ValidationStateError],
+			),
+		),
+	)
 	if parseResult[validation.ValidationStateError] > 0 {
 		os.Exit(1)
 	}

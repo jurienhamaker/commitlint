@@ -1,23 +1,25 @@
 package validation
 
+import "github.com/jurienhamaker/commitlint/parser"
+
 type ValidationRuleConfig struct {
-	Enabled bool
-	Level   ValidationState
-	Value   any
+	Always bool
+	Level  ValidationState
+	Value  any
 }
 
 type (
 	ValidationState   int
 	ValidationResult  map[string]ValidationState
-	ValidationsResult map[string]ValidationResult
+	ValidationsResult []ValidationResult
 	ValidatorConfig   map[string]ValidationRuleConfig
-	Validator         func(string, ValidatorConfig) (ValidationResult, error)
+	Validator         func(*parser.ConventionalCommit, ValidatorConfig) (ValidationResult, error)
 )
 
 const (
-	ValidationStateError ValidationState = iota
+	ValidationStateSuccess ValidationState = iota
 	ValidationStateWarning
-	ValidationStateSuccess
+	ValidationStateError
 )
 
 var ValidationStateName = map[ValidationState]string{
@@ -30,4 +32,10 @@ var ValidationStateInt = map[string]ValidationState{
 	"error":   ValidationStateError,
 	"warning": ValidationStateWarning,
 	"success": ValidationStateSuccess,
+}
+
+var ValidationStateMapping = map[int]ValidationState{
+	0: ValidationStateSuccess,
+	1: ValidationStateWarning,
+	2: ValidationStateError,
 }

@@ -10,10 +10,9 @@ import (
 )
 
 type (
-	Rules  map[string]validation.ValidatorConfig
 	Config struct {
 		Enabled bool
-		Rules   Rules
+		Rules   validation.ValidatorConfig
 	}
 )
 
@@ -27,37 +26,31 @@ func init() {
 
 func parseRuleConfig(ruleConfig []any) (c validation.ValidationRuleConfig, err error) {
 	c = validation.ValidationRuleConfig{
-		Enabled: true,
-		Level:   validation.ValidationStateError,
-		Value:   nil,
+		Always: true,
+		Level:  validation.ValidationStateError,
+		Value:  nil,
 	}
 
 	if len(ruleConfig) == 0 {
 		return
 	}
 
-	enabled, ok := ruleConfig[0].(string)
-	if ok && enabled == "never" {
-		c.Enabled = false
-	}
-
-	levelInt, ok := ruleConfig[0].(int)
-	if !ok || levelInt < 0 || levelInt > 2 {
+	level, ok := ruleConfig[0].(int)
+	if !ok || level < 0 || level > 2 {
 		err = errors.New("first option of rule must be a number between 0 and 2")
 		return
 	}
 
-	level, _ := ruleConfig[0].(validation.ValidationState)
-	c.Level = level
+	c.Level = validation.ValidationStateMapping[level]
 
-	enabled, ok = ruleConfig[1].(string)
-	if !ok || (enabled != "never" && enabled != "always") {
-		err = fmt.Errorf("second option of rule must be 'never' or 'always', found \"%s\"", enabled)
+	always, ok := ruleConfig[1].(string)
+	if !ok || (always != "never" && always != "always") {
+		err = fmt.Errorf("second option of rule must be 'never' or 'always', found \"%s\"", always)
 		return
 	}
 
-	if enabled == "never" {
-		c.Enabled = false
+	if always == "never" {
+		c.Always = false
 	}
 
 	if len(ruleConfig) > 2 {
@@ -71,21 +64,16 @@ func parseConfig() (Config, error) {
 	c = Config{}
 	c.Enabled = viper.GetBool("enabled")
 
-	c.Rules = make(Rules)
+	c.Rules = make(validation.ValidatorConfig)
 	rules := viper.GetStringMap("rules")
 
-	for pluginName := range rules {
-		ruleConfig := viper.GetStringMap(fmt.Sprintf("rules.%s", pluginName))
-		c.Rules[pluginName] = make(validation.ValidatorConfig)
-
-		for rule, ruleConfig := range ruleConfig {
-			parsed, err := parseRuleConfig(ruleConfig.([]any))
-			if err != nil {
-				panic(fmt.Errorf("Config [rules.%s.%s] %s", pluginName, rule, err.Error()))
-			}
-
-			c.Rules[pluginName][rule] = parsed
+	for rule, ruleConfig := range rules {
+		parsed, err := parseRuleConfig(ruleConfig.([]any))
+		if err != nil {
+			panic(fmt.Errorf("Config [rules.%s] %s", rule, err.Error()))
 		}
+
+		c.Rules[rule] = parsed
 	}
 
 	return c, nil
@@ -105,6 +93,6 @@ func Load() error {
 	return nil
 }
 
-func GetConfig() Config {
-	return c
+func GetConfig() *Config {
+	return &c
 }

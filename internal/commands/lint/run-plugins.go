@@ -8,6 +8,7 @@ import (
 	"github.com/charmbracelet/log"
 	"github.com/jurienhamaker/commitlint/internal/spinner"
 	"github.com/jurienhamaker/commitlint/internal/styles"
+	"github.com/jurienhamaker/commitlint/parser"
 	"github.com/jurienhamaker/commitlint/plugins"
 	"github.com/jurienhamaker/commitlint/validation"
 )
@@ -19,7 +20,8 @@ func runPlugins(pm *plugins.PluginManager, message string) (validation.Validatio
 	go func(sub chan spinner.SpinnerResultMsg[validation.ValidationsResult]) {
 		time.Sleep(time.Second * 1)
 
-		result, err := pm.RunPluginValidators(message)
+		commit := parser.ParseConventionalCommit(message)
+		result, err := pm.RunPluginValidators(commit)
 		if err != nil {
 			sub <- spinner.SpinnerResultMsg[validation.ValidationsResult]{Error: fmt.Errorf("running failed: %s", err.Error())}
 			return

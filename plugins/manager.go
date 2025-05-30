@@ -5,8 +5,8 @@
 package plugins
 
 import (
-	"github.com/charmbracelet/log"
 	"github.com/jurienhamaker/commitlint/config"
+	"github.com/jurienhamaker/commitlint/parser"
 	"github.com/jurienhamaker/commitlint/validation"
 )
 
@@ -24,21 +24,19 @@ func (pm *PluginManager) RegisterPlugin(pluginName string, validator validation.
 	pm.plugins[pluginName] = validator
 }
 
-func (pm *PluginManager) RunPluginValidators(message string) (results validation.ValidationsResult, err error) {
-	log.Debugf("Running plugins: %s", message)
-	results = make(validation.ValidationsResult)
+func (pm *PluginManager) RunPluginValidators(commit *parser.ConventionalCommit) (results validation.ValidationsResult, err error) {
+	results = validation.ValidationsResult{}
 
 	c := config.GetConfig()
 
-	for pluginName, validator := range pm.plugins {
-		pluginConfig := c.Rules[pluginName]
-		result, valErr := validator(message, pluginConfig)
+	for _, validator := range pm.plugins {
+		result, valErr := validator(commit, c.Rules)
 		if valErr != nil {
 			err = valErr
 			break
 		}
 
-		results[pluginName] = result
+		results = append(results, result)
 	}
 
 	return
