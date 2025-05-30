@@ -27,14 +27,14 @@ var (
 
 // ConventionalCommit a parsed conventional commit message
 type ConventionalCommit struct {
-	Category    string   `yaml:"category"`
-	Scope       string   `yaml:"scope"`
-	Description string   `yaml:"description"`
-	Body        string   `yaml:"body"`
-	Footer      []string `yaml:"footer"`
-	Major       bool     `yaml:"major"`
-	Minor       bool     `yaml:"minor"`
-	Patch       bool     `yaml:"patch"`
+	Category string   `yaml:"category"`
+	Scope    string   `yaml:"scope"`
+	Subject  string   `yaml:"subject"`
+	Body     string   `yaml:"body"`
+	Footer   []string `yaml:"footer"`
+	Major    bool     `yaml:"major"`
+	Minor    bool     `yaml:"minor"`
+	Patch    bool     `yaml:"patch"`
 }
 
 // Compare compares this version to another version. This

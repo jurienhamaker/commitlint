@@ -348,7 +348,7 @@ BREAKING CHANGE: bla bla
 	}
 	parsedCommits := ParseConventionalCommits(commits)
 	sort.Sort(parsedCommits)
-	if parsedCommits[0].Category != "feat" && parsedCommits[0].Description != "some new feature that breaks things" {
+	if parsedCommits[0].Category != "feat" && parsedCommits[0].Subject != "some new feature that breaks things" {
 		t.Error("Failed to sort with no breaking changes")
 	}
 }
@@ -362,7 +362,7 @@ func TestConventionalCommitsSortingWithBreakingChangesShortcut(t *testing.T) {
 	}
 	parsedCommits := ParseConventionalCommits(commits)
 	sort.Sort(parsedCommits)
-	if parsedCommits[0].Category != "feat" && parsedCommits[0].Description != "some new feature that breaks things" {
+	if parsedCommits[0].Category != "feat" && parsedCommits[0].Subject != "some new feature that breaks things" {
 		t.Error("Failed to sort with no breaking changes")
 	}
 }

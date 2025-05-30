@@ -9,7 +9,7 @@ import (
 
 // nolint:gochecknoglobals
 var (
-	baseFormatRegex       = regexp.MustCompile(`(?is)^(?:(?P<category>[^\(!:]+)(?:\((?P<scope>[^\)]+)\))?(?P<breaking>!)?: (?P<description>[^\n\r]+))(?P<remainder>.*)`)
+	baseFormatRegex       = regexp.MustCompile(`(?is)^(?:(?P<category>[^\(!:]+)(?:\((?P<scope>[^\)]+)\))?(?P<breaking>!)?: (?P<subject>[^\n\r]+))(?P<remainder>.*)`)
 	bodyFooterFormatRegex = regexp.MustCompile(`(?isU)^(?:(?P<body>.*))?(?P<footer>(?-U:(?:[\w\-]+(?:: | #).*|(?i:BREAKING CHANGE:.*))+))`)
 	footerFormatRegex     = regexp.MustCompile(`(?s)^(?P<footer>(?i:(?:[\w\-]+(?:: | #).*|(?i:BREAKING CHANGE:.*))+))`)
 )
@@ -30,10 +30,10 @@ func ParseConventionalCommit(message string) (commit *ConventionalCommit) {
 		parts := strings.SplitN(message, "\n", 2)
 		parts = append(parts, "")
 		return &ConventionalCommit{
-			Category:    "",
-			Major:       strings.Contains(parts[1], "BREAKING CHANGE"),
-			Description: strings.TrimSpace(parts[0]),
-			Body:        strings.TrimSpace(parts[1]),
+			Category: "",
+			Major:    strings.Contains(parts[1], "BREAKING CHANGE"),
+			Subject:  strings.TrimSpace(parts[0]),
+			Body:     strings.TrimSpace(parts[1]),
 		}
 	}
 
@@ -76,12 +76,12 @@ func ParseConventionalCommit(message string) (commit *ConventionalCommit) {
 	}
 
 	commit = &ConventionalCommit{
-		Category:    result["category"],
-		Scope:       result["scope"],
-		Major:       result["breaking"] == "!" || strings.Contains(result["footer"], "BREAKING CHANGE"),
-		Description: result["description"],
-		Body:        result["body"],
-		Footer:      footers,
+		Category: result["category"],
+		Scope:    result["scope"],
+		Major:    result["breaking"] == "!" || strings.Contains(result["footer"], "BREAKING CHANGE"),
+		Subject:  result["subject"],
+		Body:     result["body"],
+		Footer:   footers,
 	}
 
 	if commit.Major {
