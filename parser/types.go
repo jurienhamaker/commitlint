@@ -30,6 +30,7 @@ type ConventionalCommit struct {
 	Category string   `yaml:"category"`
 	Scope    string   `yaml:"scope"`
 	Subject  string   `yaml:"subject"`
+	Header   string   `yaml:"header"`
 	Body     string   `yaml:"body"`
 	Footer   []string `yaml:"footer"`
 	Major    bool     `yaml:"major"`

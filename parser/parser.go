@@ -26,12 +26,13 @@ func regExMapper(match []string, expectedFormatRegex *regexp.Regexp, result map[
 func ParseConventionalCommit(message string) (commit *ConventionalCommit) {
 	match := baseFormatRegex.FindStringSubmatch(message)
 
+	parts := strings.SplitN(message, "\n", 2)
 	if len(match) == 0 {
-		parts := strings.SplitN(message, "\n", 2)
 		parts = append(parts, "")
 		return &ConventionalCommit{
 			Category: "",
 			Major:    strings.Contains(parts[1], "BREAKING CHANGE"),
+			Header:   strings.TrimSpace(parts[0]),
 			Subject:  strings.TrimSpace(parts[0]),
 			Body:     strings.TrimSpace(parts[1]),
 		}
@@ -80,6 +81,7 @@ func ParseConventionalCommit(message string) (commit *ConventionalCommit) {
 		Scope:    result["scope"],
 		Major:    result["breaking"] == "!" || strings.Contains(result["footer"], "BREAKING CHANGE"),
 		Subject:  result["subject"],
+		Header:   strings.TrimSpace(parts[0]),
 		Body:     result["body"],
 		Footer:   footers,
 	}
