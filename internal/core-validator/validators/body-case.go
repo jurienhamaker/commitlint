@@ -1,4 +1,4 @@
-package corevalidator
+package validators
 
 import (
 	"errors"
@@ -11,7 +11,7 @@ import (
 	"github.com/jurienhamaker/commitlint/validation"
 )
 
-func bodyCase(commit *parser.ConventionalCommit, config validation.ValidationRuleConfig) (message string, state validation.ValidationState, err error) {
+func BodyCase(commit *parser.ConventionalCommit, config validation.ValidationRuleConfig) (message string, state validation.ValidationState, err error) {
 	values := []string{}
 	if reflect.ValueOf(config.Value).Kind() == reflect.String {
 		values = append(values, config.Value.(string))

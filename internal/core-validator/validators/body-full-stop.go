@@ -1,4 +1,4 @@
-package corevalidator
+package validators
 
 import (
 	"errors"
@@ -9,7 +9,7 @@ import (
 	"github.com/jurienhamaker/commitlint/validation"
 )
 
-func bodyFullStop(commit *parser.ConventionalCommit, config validation.ValidationRuleConfig) (message string, state validation.ValidationState, err error) {
+func BodyFullStop(commit *parser.ConventionalCommit, config validation.ValidationRuleConfig) (message string, state validation.ValidationState, err error) {
 	if reflect.ValueOf(config.Value).Kind() != reflect.String {
 		err = errors.New("[body-full-stop] value must be a string")
 		return

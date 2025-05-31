@@ -1,4 +1,4 @@
-package corevalidator
+package validators
 
 import (
 	"testing"
