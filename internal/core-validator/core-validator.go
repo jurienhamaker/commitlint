@@ -1,6 +1,8 @@
 package corevalidator
 
 import (
+	"maps"
+
 	"github.com/jurienhamaker/commitlint/parser"
 	"github.com/jurienhamaker/commitlint/validation"
 
@@ -10,20 +12,35 @@ import (
 func CoreValidator(commit *parser.ConventionalCommit, config validation.ValidatorConfig) (result validation.ValidationResult, err error) {
 	result = make(validation.ValidationResult)
 
-	bodyCaseConf, ok := config["body-case"]
-	if ok {
-		message, state, resultErr := validators.BodyCase(commit, bodyCaseConf)
-		if resultErr != nil {
-			err = resultErr
-			return
-		}
-
-		result[message] = state
+	validators := map[string]validators.ValidatorFn{
+		"body-case":          validators.BodyCase,
+		"body-empty":         validators.BodyEmpty,
+		"body-full-stop":     validators.BodyFullStop,
+		"body-leading-blank": validators.BodyLeadingBlank,
 	}
 
-	bodyFullStopConf, ok := config["body-full-stop"]
+	for name, fn := range validators {
+		validatorResult, validatorErr := checkValidator(
+			commit,
+			name,
+			config,
+			fn,
+		)
+		if validatorErr != nil {
+			err = validatorErr
+			return
+		}
+		maps.Copy(result, validatorResult)
+	}
+
+	return
+}
+
+func checkValidator(commit *parser.ConventionalCommit, name string, config validation.ValidatorConfig, fn validators.ValidatorFn) (result validation.ValidationResult, err error) {
+	result = make(validation.ValidationResult)
+	conf, ok := config[name]
 	if ok {
-		message, state, resultErr := validators.BodyFullStop(commit, bodyFullStopConf)
+		message, state, resultErr := fn(commit, conf)
 		if resultErr != nil {
 			err = resultErr
 			return
