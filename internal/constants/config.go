@@ -3,10 +3,12 @@ package constants
 import "fmt"
 
 const (
-	DEFAULT_CONFIG = `enabled: true`
-	CONFIG_TYPE    = "yaml"
-	CONFIG_NAME    = "commitlint"
-	CONFIG_PATH    = ".commitlint"
+	DEFAULT_CONFIG = `enabled: true
+
+rules: []`
+	CONFIG_TYPE = "yaml"
+	CONFIG_NAME = "commitlint"
+	CONFIG_PATH = ".commitlint"
 )
 
 var (
