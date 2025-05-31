@@ -4,5 +4,4 @@ test
 dist/
 man/
 
-commitlint
-.commitlint
+.commitlint/
