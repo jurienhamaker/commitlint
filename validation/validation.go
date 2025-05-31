@@ -11,7 +11,7 @@ type ValidationRuleConfig struct {
 type (
 	ValidationState   int
 	ValidationResult  map[string]ValidationState
-	ValidationsResult []ValidationResult
+	ValidationsResult map[ValidationState][]string
 	ValidatorConfig   map[string]ValidationRuleConfig
 	Validator         func(*parser.ConventionalCommit, ValidatorConfig) (ValidationResult, error)
 )

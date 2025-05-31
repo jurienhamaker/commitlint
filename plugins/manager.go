@@ -25,7 +25,7 @@ func (pm *PluginManager) RegisterPlugin(pluginName string, validator validation.
 }
 
 func (pm *PluginManager) RunPluginValidators(commit *parser.ConventionalCommit) (results validation.ValidationsResult, err error) {
-	results = validation.ValidationsResult{}
+	results = make(validation.ValidationsResult)
 
 	c := config.GetConfig()
 
@@ -36,7 +36,9 @@ func (pm *PluginManager) RunPluginValidators(commit *parser.ConventionalCommit) 
 			break
 		}
 
-		results = append(results, result)
+		for message, state := range result {
+			results[state] = append(results[state], message)
+		}
 	}
 
 	return

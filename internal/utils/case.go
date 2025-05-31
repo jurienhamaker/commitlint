@@ -73,6 +73,7 @@ var replacer = strings.NewReplacer("'", "", "\"", "", "`", "")
 
 func EnsureCase(input string, caseType Case) bool {
 	input = replacer.Replace(input)
+	input = strings.TrimRight(input, ".") // When we have a body full stop we want to remove it.
 	transformed := ToCase(input, caseType)
 
 	match, _ := regexp.MatchString(`\d`, transformed)
