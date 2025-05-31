@@ -7,21 +7,15 @@ import (
 	"github.com/jurienhamaker/commitlint/validation"
 )
 
-const (
-	BODY_FULL_STOP_EMPTY   = "feat:"
-	BODY_FULL_STOP_WITH    = "test: subject\n\nbody."
-	BODY_FULL_STOP_WITHOUT = "test: subject\n\nbody"
-)
-
 var (
-	BODY_FULL_STOP_EMPTY_PARSED   = parser.ParseConventionalCommit(BODY_FULL_STOP_EMPTY)
-	BODY_FULL_STOP_WITH_PARSED    = parser.ParseConventionalCommit(BODY_FULL_STOP_WITH)
-	BODY_FULL_STOP_WITHOUT_PARSED = parser.ParseConventionalCommit(BODY_FULL_STOP_WITHOUT)
+	BODY_FULL_STOP_EMPTY   = parser.ParseConventionalCommit("feat:").Body
+	BODY_FULL_STOP_WITH    = parser.ParseConventionalCommit("test: subject\n\nbody.").Body
+	BODY_FULL_STOP_WITHOUT = parser.ParseConventionalCommit("test: subject\n\nbody").Body
 )
 
 func TestBodyFullStopEmptyAlwaysShouldSucceed(t *testing.T) {
 	_, level := bodyFullStopValidator(
-		BODY_FULL_STOP_EMPTY_PARSED.Body,
+		BODY_FULL_STOP_EMPTY,
 		validation.ValidationStateError,
 		true,
 		".",
@@ -34,7 +28,7 @@ func TestBodyFullStopEmptyAlwaysShouldSucceed(t *testing.T) {
 
 func TestBodyFullBodyStopEmptyNeverShouldSucceed(t *testing.T) {
 	_, level := bodyFullStopValidator(
-		BODY_FULL_STOP_EMPTY_PARSED.Body,
+		BODY_FULL_STOP_EMPTY,
 		validation.ValidationStateError,
 		false,
 		".",
@@ -47,7 +41,7 @@ func TestBodyFullBodyStopEmptyNeverShouldSucceed(t *testing.T) {
 
 func TestBodyFullStopWithAlwaysShouldSucceed(t *testing.T) {
 	_, level := bodyFullStopValidator(
-		BODY_FULL_STOP_WITH_PARSED.Body,
+		BODY_FULL_STOP_WITH,
 		validation.ValidationStateError,
 		true,
 		".",
@@ -60,7 +54,7 @@ func TestBodyFullStopWithAlwaysShouldSucceed(t *testing.T) {
 
 func TestBodyFullStopWithNeverShouldFail(t *testing.T) {
 	_, level := bodyFullStopValidator(
-		BODY_FULL_STOP_WITH_PARSED.Body,
+		BODY_FULL_STOP_WITH,
 		validation.ValidationStateError,
 		false,
 		".",
@@ -73,7 +67,7 @@ func TestBodyFullStopWithNeverShouldFail(t *testing.T) {
 
 func TestBodyFullStopWithoutAlwaysShouldFail(t *testing.T) {
 	_, level := bodyFullStopValidator(
-		BODY_FULL_STOP_WITHOUT_PARSED.Body,
+		BODY_FULL_STOP_WITHOUT,
 		validation.ValidationStateError,
 		true,
 		".",
@@ -86,7 +80,7 @@ func TestBodyFullStopWithoutAlwaysShouldFail(t *testing.T) {
 
 func TestBodyFullStopWithoutNeverShouldSucceed(t *testing.T) {
 	_, level := bodyFullStopValidator(
-		BODY_FULL_STOP_WITHOUT_PARSED.Body,
+		BODY_FULL_STOP_WITHOUT,
 		validation.ValidationStateError,
 		false,
 		".",

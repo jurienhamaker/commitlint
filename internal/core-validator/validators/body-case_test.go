@@ -7,23 +7,16 @@ import (
 	"github.com/jurienhamaker/commitlint/validation"
 )
 
-const (
-	BODY_CASE_EMPTY = "test: subject"
-	BODY_CASE_LOWER = "test: subject\nbody"
-	BODY_CASE_MIXED = "test: subject\nBody"
-	BODY_CASE_UPPER = "test: subject\nBODY"
-)
-
 var (
-	BODY_CASE_EMPTY_PARSED = parser.ParseConventionalCommit(BODY_CASE_EMPTY)
-	BODY_CASE_LOWER_PARSED = parser.ParseConventionalCommit(BODY_CASE_LOWER)
-	BODY_CASE_MIXED_PARSED = parser.ParseConventionalCommit(BODY_CASE_MIXED)
-	BODY_CASE_UPPER_PARSED = parser.ParseConventionalCommit(BODY_CASE_UPPER)
+	BODY_CASE_EMPTY = parser.ParseConventionalCommit("test: subject").Body
+	BODY_CASE_LOWER = parser.ParseConventionalCommit("test: subject\nbody").Body
+	BODY_CASE_MIXED = parser.ParseConventionalCommit("test:  subject\nBody").Body
+	BODY_CASE_UPPER = parser.ParseConventionalCommit("test: subject\nBODY").Body
 )
 
 func TestBodyCaseEmptyAlwaysLowercaseShouldSucceed(t *testing.T) {
 	_, level := bodyCaseValidator(
-		BODY_CASE_EMPTY_PARSED.Body,
+		BODY_CASE_EMPTY,
 		validation.ValidationStateError,
 		true,
 		[]string{"lowercase"},
@@ -36,7 +29,7 @@ func TestBodyCaseEmptyAlwaysLowercaseShouldSucceed(t *testing.T) {
 
 func TestBodyCaseEmptyNeverLowercaseShouldSucceed(t *testing.T) {
 	_, level := bodyCaseValidator(
-		BODY_CASE_EMPTY_PARSED.Body,
+		BODY_CASE_EMPTY,
 		validation.ValidationStateError,
 		false,
 		[]string{"lowercase"},
@@ -49,7 +42,7 @@ func TestBodyCaseEmptyNeverLowercaseShouldSucceed(t *testing.T) {
 
 func TestBodyCaseEmptyAlwaysUppercaseShouldSucceed(t *testing.T) {
 	_, level := bodyCaseValidator(
-		BODY_CASE_EMPTY_PARSED.Body,
+		BODY_CASE_EMPTY,
 		validation.ValidationStateError,
 		true,
 		[]string{"uppercase"},
@@ -62,7 +55,7 @@ func TestBodyCaseEmptyAlwaysUppercaseShouldSucceed(t *testing.T) {
 
 func TestBodyCaseEmptyNeverUppercaseShouldSucceed(t *testing.T) {
 	_, level := bodyCaseValidator(
-		BODY_CASE_EMPTY_PARSED.Body,
+		BODY_CASE_EMPTY,
 		validation.ValidationStateError,
 		false,
 		[]string{"uppercase"},
@@ -75,7 +68,7 @@ func TestBodyCaseEmptyNeverUppercaseShouldSucceed(t *testing.T) {
 
 func TestBodyCaseLowerNeverLowercaseShouldFail(t *testing.T) {
 	_, level := bodyCaseValidator(
-		BODY_CASE_LOWER_PARSED.Body,
+		BODY_CASE_LOWER,
 		validation.ValidationStateError,
 		false,
 		[]string{"lowercase"},
@@ -88,7 +81,7 @@ func TestBodyCaseLowerNeverLowercaseShouldFail(t *testing.T) {
 
 func TestBodyCaseLowerAlwaysLowercaseShouldSucceed(t *testing.T) {
 	_, level := bodyCaseValidator(
-		BODY_CASE_LOWER_PARSED.Body,
+		BODY_CASE_LOWER,
 		validation.ValidationStateError,
 		true,
 		[]string{"lowercase"},
@@ -101,7 +94,7 @@ func TestBodyCaseLowerAlwaysLowercaseShouldSucceed(t *testing.T) {
 
 func TestBodyCaseMixedNeverLowercaseShouldSucceed(t *testing.T) {
 	_, level := bodyCaseValidator(
-		BODY_CASE_MIXED_PARSED.Body,
+		BODY_CASE_MIXED,
 		validation.ValidationStateError,
 		false,
 		[]string{"lowercase"},
@@ -114,7 +107,7 @@ func TestBodyCaseMixedNeverLowercaseShouldSucceed(t *testing.T) {
 
 func TestBodyCaseMixedAlwaysLowercaseShouldFail(t *testing.T) {
 	_, level := bodyCaseValidator(
-		BODY_CASE_MIXED_PARSED.Body,
+		BODY_CASE_MIXED,
 		validation.ValidationStateError,
 		true,
 		[]string{"lowercase"},
@@ -127,7 +120,7 @@ func TestBodyCaseMixedAlwaysLowercaseShouldFail(t *testing.T) {
 
 func TestBodyCaseMixedNeverUppercaseShouldSucceed(t *testing.T) {
 	_, level := bodyCaseValidator(
-		BODY_CASE_MIXED_PARSED.Body,
+		BODY_CASE_MIXED,
 		validation.ValidationStateError,
 		false,
 		[]string{"uppercase"},
@@ -140,7 +133,7 @@ func TestBodyCaseMixedNeverUppercaseShouldSucceed(t *testing.T) {
 
 func TestBodyCaseMixedAlwaysUppercaseShouldFail(t *testing.T) {
 	_, level := bodyCaseValidator(
-		BODY_CASE_MIXED_PARSED.Body,
+		BODY_CASE_MIXED,
 		validation.ValidationStateError,
 		true,
 		[]string{"uppercase"},
@@ -153,7 +146,7 @@ func TestBodyCaseMixedAlwaysUppercaseShouldFail(t *testing.T) {
 
 func TestBodyCaseUpperNeverUppercaseShouldFail(t *testing.T) {
 	_, level := bodyCaseValidator(
-		BODY_CASE_UPPER_PARSED.Body,
+		BODY_CASE_UPPER,
 		validation.ValidationStateError,
 		false,
 		[]string{"uppercase"},
@@ -166,7 +159,7 @@ func TestBodyCaseUpperNeverUppercaseShouldFail(t *testing.T) {
 
 func TestBodyCaseUpperAlwaysUppercaseShouldSucceed(t *testing.T) {
 	_, level := bodyCaseValidator(
-		BODY_CASE_UPPER_PARSED.Body,
+		BODY_CASE_UPPER,
 		validation.ValidationStateError,
 		true,
 		[]string{"uppercase"},
