@@ -5,6 +5,8 @@ import (
 	"regexp"
 	"slices"
 	"strings"
+
+	"github.com/charmbracelet/log"
 )
 
 var (
@@ -16,7 +18,7 @@ var (
 func regExMapper(match []string, expectedFormatRegex *regexp.Regexp, result map[string]string) {
 	for i, name := range expectedFormatRegex.SubexpNames() {
 		if i != 0 && name != "" {
-			result[name] = strings.TrimSpace(match[i])
+			result[name] = match[i]
 		}
 	}
 }
@@ -25,7 +27,7 @@ func regExMapper(match []string, expectedFormatRegex *regexp.Regexp, result map[
 func ParseConventionalCommit(message string) (commit *ConventionalCommit) {
 	match := baseFormatRegex.FindStringSubmatch(message)
 
-	parts := strings.SplitN(message, "\n", 2)
+	parts := strings.Split(message, "\n")
 	if len(match) == 0 {
 		parts = append(parts, "")
 		return &ConventionalCommit{
@@ -33,12 +35,14 @@ func ParseConventionalCommit(message string) (commit *ConventionalCommit) {
 			Major:    strings.Contains(parts[1], "BREAKING CHANGE"),
 			Header:   strings.TrimSpace(parts[0]),
 			Subject:  strings.TrimSpace(parts[0]),
-			Body:     strings.TrimSpace(parts[1]),
+			Body:     strings.Join(parts[1:], "\n"),
 		}
 	}
 
 	result := make(map[string]string)
 	regExMapper(match, baseFormatRegex, result)
+
+	log.Info(result)
 
 	// split the remainder into body & footer
 	match = bodyFooterFormatRegex.FindStringSubmatch(result["remainder"])
