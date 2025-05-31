@@ -8,20 +8,20 @@ import (
 )
 
 const (
-	BODY_EMPTY   = "feat:"
-	BODY_WITH    = "test: subject\n\nbody."
-	BODY_WITHOUT = "test: subject\n\nbody"
+	BODY_FULL_STOP_EMPTY   = "feat:"
+	BODY_FULL_STOP_WITH    = "test: subject\n\nbody."
+	BODY_FULL_STOP_WITHOUT = "test: subject\n\nbody"
 )
 
 var (
-	BODY_EMPTY_PARSED   = parser.ParseConventionalCommit(BODY_EMPTY)
-	BODY_WITH_PARSED    = parser.ParseConventionalCommit(BODY_WITH)
-	BODY_WITHOUT_PARSED = parser.ParseConventionalCommit(BODY_WITHOUT)
+	BODY_FULL_STOP_EMPTY_PARSED   = parser.ParseConventionalCommit(BODY_FULL_STOP_EMPTY)
+	BODY_FULL_STOP_WITH_PARSED    = parser.ParseConventionalCommit(BODY_FULL_STOP_WITH)
+	BODY_FULL_STOP_WITHOUT_PARSED = parser.ParseConventionalCommit(BODY_FULL_STOP_WITHOUT)
 )
 
-func TestEmptyBodyAlwaysShouldSucceed(t *testing.T) {
+func TestBodyFullStopEmptyAlwaysShouldSucceed(t *testing.T) {
 	_, level := bodyFullStopValidator(
-		BODY_EMPTY_PARSED.Body,
+		BODY_FULL_STOP_EMPTY_PARSED.Body,
 		validation.ValidationStateError,
 		true,
 		".",
@@ -32,9 +32,9 @@ func TestEmptyBodyAlwaysShouldSucceed(t *testing.T) {
 	}
 }
 
-func TestEmptyBodyNeverShouldSucceed(t *testing.T) {
+func TestBodyFullBodyStopEmptyNeverShouldSucceed(t *testing.T) {
 	_, level := bodyFullStopValidator(
-		BODY_EMPTY_PARSED.Body,
+		BODY_FULL_STOP_EMPTY_PARSED.Body,
 		validation.ValidationStateError,
 		false,
 		".",
@@ -45,9 +45,9 @@ func TestEmptyBodyNeverShouldSucceed(t *testing.T) {
 	}
 }
 
-func TestBodyWithAlwaysShouldSucceed(t *testing.T) {
+func TestBodyFullStopWithAlwaysShouldSucceed(t *testing.T) {
 	_, level := bodyFullStopValidator(
-		BODY_WITH_PARSED.Body,
+		BODY_FULL_STOP_WITH_PARSED.Body,
 		validation.ValidationStateError,
 		true,
 		".",
@@ -58,9 +58,9 @@ func TestBodyWithAlwaysShouldSucceed(t *testing.T) {
 	}
 }
 
-func TestBodyWithNeverShouldFail(t *testing.T) {
+func TestBodyFullStopWithNeverShouldFail(t *testing.T) {
 	_, level := bodyFullStopValidator(
-		BODY_WITH_PARSED.Body,
+		BODY_FULL_STOP_WITH_PARSED.Body,
 		validation.ValidationStateError,
 		false,
 		".",
@@ -71,9 +71,9 @@ func TestBodyWithNeverShouldFail(t *testing.T) {
 	}
 }
 
-func TestBodyWithoutAlwaysShouldFail(t *testing.T) {
+func TestBodyFullStopWithoutAlwaysShouldFail(t *testing.T) {
 	_, level := bodyFullStopValidator(
-		BODY_WITHOUT_PARSED.Body,
+		BODY_FULL_STOP_WITHOUT_PARSED.Body,
 		validation.ValidationStateError,
 		true,
 		".",
@@ -84,9 +84,9 @@ func TestBodyWithoutAlwaysShouldFail(t *testing.T) {
 	}
 }
 
-func TestBodyWithoutNeverShouldSucceed(t *testing.T) {
+func TestBodyFullStopWithoutNeverShouldSucceed(t *testing.T) {
 	_, level := bodyFullStopValidator(
-		BODY_WITHOUT_PARSED.Body,
+		BODY_FULL_STOP_WITHOUT_PARSED.Body,
 		validation.ValidationStateError,
 		false,
 		".",

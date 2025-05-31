@@ -1,7 +1,7 @@
 package parser
 
 var (
-	// PatchCategories is the list of categories used to determine if this commit is a patch bump or not
+	// PatchCategories is the list of categories used to determine if this commit is a patch bump or not.
 	PatchCategories = []string{
 		"fix",
 		"refactor",
@@ -12,20 +12,20 @@ var (
 		"test",
 	}
 
-	// MinorCategories is the list of categories used to determine if this commit is a minor bump or not
+	// MinorCategories is the list of categories used to determine if this commit is a minor bump or not.
 	MinorCategories = []string{
 		"feat",
 		"feature",
 		"story",
 	}
 
-	// MajorCategories is the list of categories used to determine if this commit is a major bump or not
+	// MajorCategories is the list of categories used to determine if this commit is a major bump or not.
 	MajorCategories = []string{
 		"breaking",
 	}
 )
 
-// ConventionalCommit a parsed conventional commit message
+// ConventionalCommit a parsed conventional commit message.
 type ConventionalCommit struct {
 	Category string   `yaml:"category"`
 	Scope    string   `yaml:"scope"`
@@ -94,7 +94,7 @@ func (v *ConventionalCommit) LessThanOrEqual(o *ConventionalCommit) bool {
 	return v.Compare(o) <= 0
 }
 
-// ConventionalCommits a slice of parsed conventional commit messages
+// ConventionalCommits a slice of parsed conventional commit messages.
 type ConventionalCommits []*ConventionalCommit
 
 // Len return the number of messages in the slice

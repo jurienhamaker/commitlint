@@ -28,7 +28,7 @@ func ensureHooksDirectory() error {
 	hooksStat, err := os.Stat(constants.HOOKS_PATH)
 	created := false
 	if os.IsNotExist(err) {
-		err = os.Mkdir(constants.HOOKS_PATH, 0755)
+		err = os.Mkdir(constants.HOOKS_PATH, 0o750)
 		created = true
 		if err != nil {
 			return fmt.Errorf("could not create %s folder", constants.HOOKS_PATH)
@@ -56,7 +56,7 @@ func checkConfigFile() error {
 	configStat, err := os.Stat(constants.CONFIG_PATH)
 	created := false
 	if os.IsNotExist(err) {
-		err = os.Mkdir(constants.CONFIG_PATH, 0755)
+		err = os.Mkdir(constants.CONFIG_PATH, 0o750)
 		created = true
 		if err != nil {
 			return fmt.Errorf("could not create %s folder", constants.CONFIG_PATH)
@@ -71,9 +71,9 @@ func checkConfigFile() error {
 	if os.IsNotExist(err) {
 		//  we will create the default config
 		command := []byte(constants.DEFAULT_CONFIG)
-		err = os.WriteFile(constants.CONFIG_FILE_PATH, command, 0644)
+		err = os.WriteFile(constants.CONFIG_FILE_PATH, command, 0o600)
 		if err != nil {
-			return err
+			return fmt.Errorf("could not create config file: %s", err)
 		}
 	}
 
@@ -100,7 +100,7 @@ func install(sub chan spinner.SpinnerResultMsg[bool]) {
 	}
 
 	command := []byte(hookContent)
-	err = os.WriteFile(constants.COMMIT_MSG_PATH, command, 0744)
+	err = os.WriteFile(constants.COMMIT_MSG_PATH, command, 0o600)
 	if err != nil {
 		sub <- spinner.SpinnerResultMsg[bool]{Error: fmt.Errorf("couldn't create %s.\n%s", constants.COMMIT_MSG_PATH, hookContentMessage)}
 	}

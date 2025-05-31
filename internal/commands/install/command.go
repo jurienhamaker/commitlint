@@ -5,8 +5,9 @@ import (
 
 	"github.com/alecthomas/kong"
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/jurienhamaker/commitlint/internal/utils"
+
 	"github.com/jurienhamaker/commitlint/internal/spinner"
+	"github.com/jurienhamaker/commitlint/internal/utils"
 )
 
 type Install struct{}

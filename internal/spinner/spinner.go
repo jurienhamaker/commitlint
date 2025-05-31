@@ -10,8 +10,9 @@ import (
 	"github.com/charmbracelet/bubbles/spinner"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/jurienhamaker/commitlint/internal/utils"
+
 	"github.com/jurienhamaker/commitlint/internal/styles"
+	"github.com/jurienhamaker/commitlint/internal/utils"
 )
 
 type (

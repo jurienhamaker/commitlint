@@ -7,7 +7,6 @@ import (
 	"strings"
 )
 
-// nolint:gochecknoglobals
 var (
 	baseFormatRegex       = regexp.MustCompile(`(?is)^(?:(?P<category>[^\(!:]+)(?:\((?P<scope>[^\)]+)\))?(?P<breaking>!)?: (?P<subject>[^\n\r]+))(?P<remainder>.*)`)
 	bodyFooterFormatRegex = regexp.MustCompile(`(?isU)^(?:(?P<body>.*))?(?P<footer>(?-U:(?:[\w\-]+(?:: | #).*|(?i:BREAKING CHANGE:.*))+))`)
@@ -22,7 +21,7 @@ func regExMapper(match []string, expectedFormatRegex *regexp.Regexp, result map[
 	}
 }
 
-// ParseConventionalCommit takes a commits message and parses it into usable blocks
+// ParseConventionalCommit takes a commits message and parses it into usable blocks.
 func ParseConventionalCommit(message string) (commit *ConventionalCommit) {
 	match := baseFormatRegex.FindStringSubmatch(message)
 
@@ -53,7 +52,7 @@ func ParseConventionalCommit(message string) (commit *ConventionalCommit) {
 		result["breaking"] = "!"
 	}
 
-	var footers []string
+	footers := []string{}
 	for v := range strings.SplitSeq(result["footer"], "\n") {
 		// v = strings.TrimSpace(v)
 		if !footerFormatRegex.MatchString(v) && len(footers) > 0 {

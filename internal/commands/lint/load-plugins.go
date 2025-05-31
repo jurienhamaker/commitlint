@@ -31,7 +31,7 @@ func loadPlugins() (*plugins.PluginManager, error) {
 
 	run, err := p.Run()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to run program: %s", err)
 	}
 
 	result := run.(spinner.SpinnerModel[*plugins.PluginManager]).Result

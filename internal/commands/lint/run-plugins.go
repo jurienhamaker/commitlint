@@ -32,7 +32,7 @@ func runPlugins(pm *plugins.PluginManager, message string) (validation.Validatio
 
 	run, err := p.Run()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to run program: %s", err)
 	}
 
 	result := run.(spinner.SpinnerModel[validation.ValidationsResult]).Result

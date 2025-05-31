@@ -39,15 +39,11 @@ func bodyCase(commit *parser.ConventionalCommit, config validation.ValidationRul
 		}
 	}
 
-	message, state, err = bodyCaseValidator(commit.Body, config.Level, config.Always, values)
-	if err != nil {
-		return
-	}
-
+	message, state = bodyCaseValidator(commit.Body, config.Level, config.Always, values)
 	return
 }
 
-func bodyCaseValidator(body string, level validation.ValidationState, always bool, cases []string) (rule string, state validation.ValidationState, err error) {
+func bodyCaseValidator(body string, level validation.ValidationState, always bool, cases []string) (rule string, state validation.ValidationState) {
 	joined := strings.Join(cases, ",")
 	rule = fmt.Sprintf("Body must be in %s", joined)
 	if !always {

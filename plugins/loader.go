@@ -23,9 +23,8 @@ func LoadPlugins(path string) (*PluginManager, error) {
 		// just return manager because there is no plugins folder so we won't load anything
 		return pm, nil
 	}
-
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("could not read plugins folder: %s", err)
 	}
 
 	for _, entry := range c {
@@ -35,12 +34,12 @@ func LoadPlugins(path string) (*PluginManager, error) {
 
 			p, err := plugin.Open(fullpath)
 			if err != nil {
-				return nil, err
+				return nil, fmt.Errorf("could not open plugin: %s", err)
 			}
 
 			ifunc, err := p.Lookup("InitPlugin")
 			if err != nil {
-				return nil, err
+				continue
 			}
 
 			initFunc := ifunc.(func(*PluginManager) error)

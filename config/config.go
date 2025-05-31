@@ -60,7 +60,7 @@ func parseRuleConfig(ruleConfig []any) (c validation.ValidationRuleConfig, err e
 	return
 }
 
-func parseConfig() (Config, error) {
+func parseConfig() Config {
 	c = Config{}
 	c.Enabled = viper.GetBool("enabled")
 
@@ -76,19 +76,16 @@ func parseConfig() (Config, error) {
 		c.Rules[rule] = parsed
 	}
 
-	return c, nil
+	return c
 }
 
 func Load() error {
 	err := viper.ReadInConfig()
 	if err != nil {
-		return err
+		return fmt.Errorf("could not read config: %s", err)
 	}
 
-	_, err = parseConfig()
-	if err != nil {
-		return err
-	}
+	parseConfig()
 
 	return nil
 }
