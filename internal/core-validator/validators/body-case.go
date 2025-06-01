@@ -74,7 +74,7 @@ func bodyCaseValidator(body string, level validation.ValidationState, always boo
 		}
 	}
 
-	if len(failures) > 0 {
+	if (len(failures) == len(cases) && always) || (len(failures) > 0 && !always) {
 		state = level
 		return
 	}

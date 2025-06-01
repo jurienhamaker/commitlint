@@ -1,4 +1,4 @@
-package validators
+package corevalidator
 
 import (
 	"github.com/jurienhamaker/commitlint/parser"
