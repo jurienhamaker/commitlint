@@ -115,7 +115,8 @@ more details
 Closes #1`
 	parsedCommit := ParseConventionalCommit(commit)
 	const expected = `Description of the new feature
-more details`
+more details
+`
 	if parsedCommit.Body != expected {
 		t.Errorf("Expected parsedCommit.Body to equal \n%v \n\ngot:\n\n%v", expected, parsedCommit.Body)
 	}
@@ -218,7 +219,8 @@ Description of the new feature
 more details
 even more details`
 	parsedCommit := ParseConventionalCommit(commit)
-	const expected = `Description of the new feature
+	const expected = `
+Description of the new feature
 more details
 even more details`
 	if parsedCommit.Body != expected {

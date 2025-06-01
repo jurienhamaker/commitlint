@@ -10,7 +10,7 @@ import (
 type ParseResult map[validation.ValidationState]int
 
 func parseResult(result validation.ValidationsResult, message string) (total int, parseResult ParseResult) {
-	fmt.Printf("\nCommitlint result for \"%s\":\n", styles.BoldTextStyle(message))
+	fmt.Println("\nCommitlint result:")
 
 	success := result[validation.ValidationStateSuccess]
 	warning := result[validation.ValidationStateWarning]

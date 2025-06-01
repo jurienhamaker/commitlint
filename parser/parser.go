@@ -5,13 +5,11 @@ import (
 	"regexp"
 	"slices"
 	"strings"
-
-	"github.com/charmbracelet/log"
 )
 
 var (
-	baseFormatRegex       = regexp.MustCompile(`(?is)^(?:(?P<category>[^\(!:]+)(?:\((?P<scope>[^\)]+)\))?(?P<breaking>!)?: (?P<subject>[^\n\r]+))(?P<remainder>.*)`)
-	bodyFooterFormatRegex = regexp.MustCompile(`(?isU)^(?:(?P<body>.*))?(?P<footer>(?-U:(?:[\w\-]+(?:: | #).*|(?i:BREAKING CHANGE:.*))+))`)
+	baseFormatRegex       = regexp.MustCompile(`(?is)^(?:(?P<category>[^\(!:]+)(?:\((?P<scope>[^\)]+)\))?(?P<breaking>!)?: (?P<subject>[^\n\r]+))[\n\r]?(?P<remainder>.*)`)
+	bodyFooterFormatRegex = regexp.MustCompile(`(?isU)^(?:(?P<body>.*))?[\n\r]?(?P<footer>(?-U:(?:[\w\-]+(?:: | #).*|(?i:BREAKING CHANGE:.*))+))`)
 	footerFormatRegex     = regexp.MustCompile(`(?s)^(?P<footer>(?i:(?:[\w\-]+(?:: | #).*|(?i:BREAKING CHANGE:.*))+))`)
 )
 
@@ -41,8 +39,6 @@ func ParseConventionalCommit(message string) (commit *ConventionalCommit) {
 
 	result := make(map[string]string)
 	regExMapper(match, baseFormatRegex, result)
-
-	log.Info(result)
 
 	// split the remainder into body & footer
 	match = bodyFooterFormatRegex.FindStringSubmatch(result["remainder"])
