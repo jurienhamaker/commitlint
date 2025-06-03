@@ -9,7 +9,7 @@ import (
 
 type ParseResult map[validation.ValidationState]int
 
-func parseResult(result validation.ValidationsResult, message string) (total int, parseResult ParseResult) {
+func parseResult(result validation.ValidationsResult) (total int, parseResult ParseResult) {
 	fmt.Println("\nCommitlint result:")
 
 	success := result[validation.ValidationStateSuccess]

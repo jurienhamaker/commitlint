@@ -27,6 +27,7 @@ var (
 
 // ConventionalCommit a parsed conventional commit message.
 type ConventionalCommit struct {
+	Raw      string   `yaml:"raw"`
 	Category string   `yaml:"category"`
 	Scope    string   `yaml:"scope"`
 	Subject  string   `yaml:"subject"`

@@ -25,6 +25,12 @@ func CoreValidator(commit *parser.ConventionalCommit, config validation.Validato
 		"footer-max-length":      validators.FooterMaxLength,
 		"footer-max-line-length": validators.FooterMaxLineLength,
 		"footer-min-length":      validators.FooterMinLength,
+		"header-case":            validators.HeaderCase,
+		"header-full-stop":       validators.HeaderFullStop,
+		"header-max-length":      validators.HeaderMaxLength,
+		"header-min-length":      validators.HeaderMinLength,
+		"header-trim":            validators.HeaderTrim,
+		"references":             validators.References,
 	}
 
 	for name, fn := range validators {

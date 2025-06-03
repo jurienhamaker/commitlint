@@ -29,10 +29,11 @@ func ParseConventionalCommit(message string) (commit *ConventionalCommit) {
 	if len(match) == 0 {
 		parts = append(parts, "")
 		return &ConventionalCommit{
+			Raw:      message,
 			Category: "",
 			Major:    strings.Contains(parts[1], "BREAKING CHANGE"),
-			Header:   strings.TrimSpace(parts[0]),
-			Subject:  strings.TrimSpace(parts[0]),
+			Header:   strings.Trim(parts[0], "\n"),
+			Subject:  strings.Trim(parts[0], "\n"),
 			Body:     strings.Join(parts[1:], "\n"),
 		}
 	}
@@ -54,7 +55,7 @@ func ParseConventionalCommit(message string) (commit *ConventionalCommit) {
 
 	footers := []string{}
 	for v := range strings.SplitSeq(result["footer"], "\n") {
-		// v = strings.TrimSpace(v)
+		v = strings.Trim(v, "\n")
 		if !footerFormatRegex.MatchString(v) && len(footers) > 0 {
 			footers[len(footers)-1] += fmt.Sprintf("\n%s", v)
 			continue
@@ -63,7 +64,7 @@ func ParseConventionalCommit(message string) (commit *ConventionalCommit) {
 	}
 
 	for i := range footers {
-		footers[i] = strings.TrimSpace(footers[i])
+		footers[i] = strings.Trim(footers[i], "\n")
 		if footers[i] == "" { // Remove the element at index i from footers.
 			copy(footers[i:], footers[i+1:])   // Shift a[i+1:] left one index.
 			footers[len(footers)-1] = ""       // Erase last element (write zero value).
@@ -76,11 +77,12 @@ func ParseConventionalCommit(message string) (commit *ConventionalCommit) {
 	}
 
 	commit = &ConventionalCommit{
+		Raw:      message,
 		Category: result["category"],
 		Scope:    result["scope"],
 		Major:    result["breaking"] == "!" || strings.Contains(result["footer"], "BREAKING CHANGE"),
 		Subject:  result["subject"],
-		Header:   strings.TrimSpace(parts[0]),
+		Header:   strings.Trim(parts[0], "\n"),
 		Body:     result["body"],
 		Footer:   footers,
 	}
