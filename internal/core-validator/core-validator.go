@@ -6,34 +6,34 @@ import (
 	"github.com/jurienhamaker/commitlint/parser"
 	"github.com/jurienhamaker/commitlint/validation"
 
-	"github.com/jurienhamaker/commitlint/internal/core-validator/validators"
+	"github.com/jurienhamaker/commitlint/internal/core-validator/rules"
 )
 
 func CoreValidator(commit *parser.ConventionalCommit, config validation.ValidatorConfig) (result validation.ValidationResult, err error) {
 	result = make(validation.ValidationResult)
 
-	validators := map[string]ValidatorFn{
-		"body-case":              validators.BodyCase,
-		"body-empty":             validators.BodyEmpty,
-		"body-full-stop":         validators.BodyFullStop,
-		"body-leading-blank":     validators.BodyLeadingBlank,
-		"body-max-length":        validators.BodyMaxLength,
-		"body-max-line-length":   validators.BodyMaxLineLength,
-		"body-min-length":        validators.BodyMinLength,
-		"footer-empty":           validators.FooterEmpty,
-		"footer-leading-blank":   validators.FooterLeadingBlank,
-		"footer-max-length":      validators.FooterMaxLength,
-		"footer-max-line-length": validators.FooterMaxLineLength,
-		"footer-min-length":      validators.FooterMinLength,
-		"header-case":            validators.HeaderCase,
-		"header-full-stop":       validators.HeaderFullStop,
-		"header-max-length":      validators.HeaderMaxLength,
-		"header-min-length":      validators.HeaderMinLength,
-		"header-trim":            validators.HeaderTrim,
-		"references":             validators.References,
+	rules := map[string]ValidatorFn{
+		"body-case":              rules.BodyCase,
+		"body-empty":             rules.BodyEmpty,
+		"body-full-stop":         rules.BodyFullStop,
+		"body-leading-blank":     rules.BodyLeadingBlank,
+		"body-max-length":        rules.BodyMaxLength,
+		"body-max-line-length":   rules.BodyMaxLineLength,
+		"body-min-length":        rules.BodyMinLength,
+		"footer-empty":           rules.FooterEmpty,
+		"footer-leading-blank":   rules.FooterLeadingBlank,
+		"footer-max-length":      rules.FooterMaxLength,
+		"footer-max-line-length": rules.FooterMaxLineLength,
+		"footer-min-length":      rules.FooterMinLength,
+		"header-case":            rules.HeaderCase,
+		"header-full-stop":       rules.HeaderFullStop,
+		"header-max-length":      rules.HeaderMaxLength,
+		"header-min-length":      rules.HeaderMinLength,
+		"header-trim":            rules.HeaderTrim,
+		"references":             rules.References,
 	}
 
-	for name, fn := range validators {
+	for name, fn := range rules {
 		validatorResult, validatorErr := checkValidator(
 			commit,
 			name,

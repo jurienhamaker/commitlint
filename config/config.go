@@ -43,6 +43,11 @@ func parseRuleConfig(ruleConfig []any) (c validation.ValidationRuleConfig, err e
 
 	c.Level = validation.ValidationStateMapping[level]
 
+	if len(ruleConfig) == 1 {
+		c.Always = true
+		return
+	}
+
 	always, ok := ruleConfig[1].(string)
 	if !ok || (always != "never" && always != "always") {
 		err = fmt.Errorf("second option of rule must be 'never' or 'always', found \"%s\"", always)
