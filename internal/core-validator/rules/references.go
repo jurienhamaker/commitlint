@@ -6,15 +6,12 @@ import (
 	"reflect"
 	"regexp"
 
-	"github.com/charmbracelet/log"
 	"github.com/jurienhamaker/commitlint/parser"
 	"github.com/jurienhamaker/commitlint/validation"
 )
 
 func References(commit *parser.ConventionalCommit, config validation.ValidationRuleConfig) (message string, state validation.ValidationState, err error) {
 	values := []string{}
-
-	log.Info(reflect.ValueOf(config.Value))
 	if reflect.ValueOf(config.Value).Kind() == reflect.String {
 		values = append(values, config.Value.(string))
 	}
@@ -22,7 +19,7 @@ func References(commit *parser.ConventionalCommit, config validation.ValidationR
 	if reflect.ValueOf(config.Value).Kind() == reflect.Slice || reflect.ValueOf(config.Value).Kind() == reflect.Array {
 		parsed := reflect.ValueOf(config.Value)
 		for i := range parsed.Len() {
-			values = append(values, parsed.Index(i).String())
+			values = append(values, parsed.Index(i).Interface().(string))
 		}
 	}
 
