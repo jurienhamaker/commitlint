@@ -31,6 +31,11 @@ func CoreValidator(commit *parser.ConventionalCommit, config validation.Validato
 		"header-min-length":      rules.HeaderMinLength,
 		"header-trim":            rules.HeaderTrim,
 		"references":             rules.References,
+		"scope-case":             rules.ScopeCase,
+		"scope-empty":            rules.ScopeEmpty,
+		"scope-enum":             rules.ScopeEnum,
+		"scope-max-length":       rules.ScopeMaxLength,
+		"scope-min-length":       rules.ScopeMinLength,
 	}
 
 	for name, fn := range rules {
