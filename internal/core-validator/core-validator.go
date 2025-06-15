@@ -37,6 +37,11 @@ func CoreValidator(commit *parser.ConventionalCommit, config validation.Validato
 		"scope-max-length":       rules.ScopeMaxLength,
 		"scope-min-length":       rules.ScopeMinLength,
 		"signed-off-by":          rules.SignedOffBy,
+		"subject-case":           rules.SubjectCase,
+		"subject-empty":          rules.SubjectEmpty,
+		"subject-full-stop":      rules.SubjectFullStop,
+		"subject-max-length":     rules.SubjectMaxLength,
+		"subject-min-length":     rules.SubjectMinLength,
 	}
 
 	for name, fn := range rules {

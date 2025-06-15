@@ -33,7 +33,6 @@ func ParseConventionalCommit(message string) (commit *ConventionalCommit) {
 			Category: "",
 			Major:    strings.Contains(parts[1], "BREAKING CHANGE"),
 			Header:   strings.Trim(parts[0], "\n"),
-			Subject:  strings.Trim(parts[0], "\n"),
 			Body:     strings.Join(parts[1:], "\n"),
 		}
 	}
