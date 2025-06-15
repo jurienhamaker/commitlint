@@ -10,13 +10,19 @@ import (
 )
 
 func BodyFullStop(commit *parser.ConventionalCommit, config validation.ValidationRuleConfig) (message string, state validation.ValidationState, err error) {
-	if reflect.ValueOf(config.Value).Kind() != reflect.String {
+	value := config.Value
+	parsedValue := "."
+
+	if value != nil && reflect.ValueOf(value).Kind() != reflect.String {
 		err = errors.New("[body-full-stop] value must be a string")
 		return
 	}
 
-	message, state = bodyFullStopValidator(commit.Body, config.Level, config.Always, config.Value.(string))
+	if value != nil {
+		parsedValue = value.(string)
+	}
 
+	message, state = bodyFullStopValidator(commit.Body, config.Level, config.Always, parsedValue)
 	return
 }
 
