@@ -12,6 +12,25 @@ on:
 
 name: release
 jobs:
+  aur-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set pkgver
+        run: sed -i -e 's/PACKAGE_VERSION/${{github.ref_name}}/g' PKGBUILD
+
+      - name: Publish AUR package
+        uses: KSXGitHub/github-actions-deploy-aur@v4.1.1
+        with:
+          pkgname: commitlint-go
+          pkgbuild: ./PKGBUILD
+          commit_username: ${{ secrets.AUR_USERNAME }}
+          commit_email: ${{ secrets.AUR_EMAIL }}
+          ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
+          commit_message: Automated update for commitlint-go AUR package
+          ssh_keyscan_types: rsa,ecdsa,ed25519
+
   binary:
     runs-on: ubuntu-latest
     strategy:
