@@ -21,7 +21,7 @@ func ScopeEnum(commit *parser.ConventionalCommit, config validation.ValidationRu
 	if reflect.ValueOf(config.Value).Kind() == reflect.Slice || reflect.ValueOf(config.Value).Kind() == reflect.Array {
 		parsed := reflect.ValueOf(config.Value)
 		for i := range parsed.Len() {
-			values = append(values, parsed.Index(i).String())
+			values = append(values, parsed.Index(i).Interface().(string))
 		}
 	}
 
