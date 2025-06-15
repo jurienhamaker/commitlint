@@ -36,6 +36,7 @@ func CoreValidator(commit *parser.ConventionalCommit, config validation.Validato
 		"scope-enum":             rules.ScopeEnum,
 		"scope-max-length":       rules.ScopeMaxLength,
 		"scope-min-length":       rules.ScopeMinLength,
+		"signed-off-by":          rules.SignedOffBy,
 	}
 
 	for name, fn := range rules {
