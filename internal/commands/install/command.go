@@ -2,6 +2,7 @@ package install
 
 import (
 	"os"
+	"strings"
 
 	"github.com/alecthomas/kong"
 	tea "github.com/charmbracelet/bubbletea"
@@ -26,8 +27,12 @@ func (i Install) Run(ctx *kong.Context) error {
 
 	result := run.(spinner.SpinnerModel[bool]).Result
 	if result.Error != nil {
-		utils.ReplyError(result.Error.Error())
-		os.Exit(1)
+		if !strings.Contains(result.Error.Error(), "already exists") {
+			utils.ReplyError(result.Error.Error())
+			os.Exit(1)
+		}
+
+		utils.ReplyWarning(result.Error.Error())
 	}
 
 	utils.ReplySuccess("Installed commitlint in your repository")

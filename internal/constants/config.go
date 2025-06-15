@@ -5,7 +5,19 @@ import "fmt"
 const (
 	DEFAULT_CONFIG = `enabled: true
 
-rules: []`
+rules:
+  header-max-length: [2, "always", 100]
+  header-trim: [2]
+  type-case: [2, "always", "lowercase"]
+  type-empty: [2, "never"]
+  type-enum: [2, "always", ["build", "chore", "ci", "docs", "feat", "fix", "perf", "refactor", "revert", "style", "test"]]
+  subject-case: [2, "never", ["pascal-case", "upper-case"]]
+  subject-empty: [2, "never"]
+  subject-full-stop: [2, "never", "."]
+  body-leading-blank: [1, "always"]
+  body-max-line-length: [2, "always", 100]
+  footer-leading-blank: [1, "always"]
+  footer-max-line-length: [2, "always", 100]`
 	CONFIG_TYPE = "yaml"
 	CONFIG_NAME = "commitlint"
 	CONFIG_PATH = ".commitlint"
