@@ -1,8 +1,8 @@
 package parser
 
 var (
-	// PatchCategories is the list of categories used to determine if this commit is a patch bump or not.
-	PatchCategories = []string{
+	// PatchTypes is the list of categories used to determine if this commit is a patch bump or not.
+	PatchTypes = []string{
 		"fix",
 		"refactor",
 		"perf",
@@ -12,31 +12,31 @@ var (
 		"test",
 	}
 
-	// MinorCategories is the list of categories used to determine if this commit is a minor bump or not.
-	MinorCategories = []string{
+	// MinorTypes is the list of categories used to determine if this commit is a minor bump or not.
+	MinorTypes = []string{
 		"feat",
 		"feature",
 		"story",
 	}
 
-	// MajorCategories is the list of categories used to determine if this commit is a major bump or not.
-	MajorCategories = []string{
+	// MajorTypes is the list of categories used to determine if this commit is a major bump or not.
+	MajorTypes = []string{
 		"breaking",
 	}
 )
 
 // ConventionalCommit a parsed conventional commit message.
 type ConventionalCommit struct {
-	Raw      string   `yaml:"raw"`
-	Category string   `yaml:"category"`
-	Scope    string   `yaml:"scope"`
-	Subject  string   `yaml:"subject"`
-	Header   string   `yaml:"header"`
-	Body     string   `yaml:"body"`
-	Footer   []string `yaml:"footer"`
-	Major    bool     `yaml:"major"`
-	Minor    bool     `yaml:"minor"`
-	Patch    bool     `yaml:"patch"`
+	Raw     string   `yaml:"raw"`
+	Type    string   `yaml:"category"`
+	Scope   string   `yaml:"scope"`
+	Subject string   `yaml:"subject"`
+	Header  string   `yaml:"header"`
+	Body    string   `yaml:"body"`
+	Footer  []string `yaml:"footer"`
+	Major   bool     `yaml:"major"`
+	Minor   bool     `yaml:"minor"`
+	Patch   bool     `yaml:"patch"`
 }
 
 // Compare compares this version to another version. This

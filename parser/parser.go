@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	baseFormatRegex       = regexp.MustCompile(`(?is)^(?:(?P<category>[^\(!:]+)(?:\((?P<scope>[^\)]+)\))?(?P<breaking>!)?: (?P<subject>[^\n\r]+))[\n\r]?(?P<remainder>.*)`)
+	baseFormatRegex       = regexp.MustCompile(`(?is)^(?:(?P<type>[^\(!:]+)(?:\((?P<scope>[^\)]+)\))?(?P<breaking>!)?: (?P<subject>[^\n\r]+))[\n\r]?(?P<remainder>.*)`)
 	bodyFooterFormatRegex = regexp.MustCompile(`(?isU)^(?:(?P<body>.*))?[\n\r]?(?P<footer>(?-U:(?:[\w\-]+(?:: | #).*|(?i:BREAKING CHANGE:.*))+))`)
 	footerFormatRegex     = regexp.MustCompile(`(?s)^(?P<footer>(?i:(?:[\w\-]+(?:: | #).*|(?i:BREAKING CHANGE:.*))+))`)
 )
@@ -29,11 +29,10 @@ func ParseConventionalCommit(message string) (commit *ConventionalCommit) {
 	if len(match) == 0 {
 		parts = append(parts, "")
 		return &ConventionalCommit{
-			Raw:      message,
-			Category: "",
-			Major:    strings.Contains(parts[1], "BREAKING CHANGE"),
-			Header:   strings.Trim(parts[0], "\n"),
-			Body:     strings.Join(parts[1:], "\n"),
+			Raw:    message,
+			Major:  strings.Contains(parts[1], "BREAKING CHANGE"),
+			Header: strings.Trim(parts[0], "\n"),
+			Body:   strings.Join(parts[1:], "\n"),
 		}
 	}
 
@@ -48,7 +47,7 @@ func ParseConventionalCommit(message string) (commit *ConventionalCommit) {
 		result["body"] = result["remainder"]
 	}
 
-	if slices.Contains(MajorCategories, result["category"]) {
+	if slices.Contains(MajorTypes, result["type"]) {
 		result["breaking"] = "!"
 	}
 
@@ -76,26 +75,26 @@ func ParseConventionalCommit(message string) (commit *ConventionalCommit) {
 	}
 
 	commit = &ConventionalCommit{
-		Raw:      message,
-		Category: result["category"],
-		Scope:    result["scope"],
-		Major:    result["breaking"] == "!" || strings.Contains(result["footer"], "BREAKING CHANGE"),
-		Subject:  result["subject"],
-		Header:   strings.Trim(parts[0], "\n"),
-		Body:     result["body"],
-		Footer:   footers,
+		Raw:     message,
+		Type:    result["type"],
+		Scope:   result["scope"],
+		Major:   result["breaking"] == "!" || strings.Contains(result["footer"], "BREAKING CHANGE"),
+		Subject: result["subject"],
+		Header:  strings.Trim(parts[0], "\n"),
+		Body:    result["body"],
+		Footer:  footers,
 	}
 
 	if commit.Major {
 		return commit
 	}
 
-	if slices.Contains(MinorCategories, result["category"]) {
+	if slices.Contains(MinorTypes, result["type"]) {
 		commit.Minor = true
 		return commit
 	}
 
-	if slices.Contains(PatchCategories, result["category"]) {
+	if slices.Contains(PatchTypes, result["type"]) {
 		commit.Patch = true
 		return commit
 	}
