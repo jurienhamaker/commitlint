@@ -29,12 +29,13 @@ Page instfiles
 
 ;A section for each component that should be installed
 Section "Install commitlint"
-  ;Set output path to the installation directory
-  SetOutPath $INSTDIR
-
-  File /r "./unzipped/*"
-
-  WriteUninstaller $INSTDIR\uninstaller.exe
+	;Set output path to the installation directory
+	SetOutPath $INSTDIR
+	
+	SetOverwrite on
+	File /r "./unzipped/*"
+	
+	WriteUninstaller $INSTDIR\uninstaller.exe
 SectionEnd
 
 Section "Add to path"
@@ -42,10 +43,10 @@ Section "Add to path"
 	EnVar::Check "Path" "$InstDir"
 	Pop $0
 	${If} $0 = 0
-	  DetailPrint "Already there"
+		DetailPrint "Already there"
 	${Else}
-	  EnVar::AddValue "Path" "$InstDir"
-	  Pop $0 ; 0 on success
+		EnVar::AddValue "Path" "$InstDir"
+		Pop $0 ; 0 on success
 	${EndIf}
 SectionEnd
 
