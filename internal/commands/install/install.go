@@ -100,7 +100,7 @@ func install(sub chan spinner.SpinnerResultMsg[bool]) {
 	}
 
 	command := []byte(hookContent)
-	err = os.WriteFile(constants.COMMIT_MSG_PATH, command, 0o600)
+	err = os.WriteFile(constants.COMMIT_MSG_PATH, command, 0o700)
 	if err != nil {
 		sub <- spinner.SpinnerResultMsg[bool]{Error: fmt.Errorf("couldn't create %s.\n%s", constants.COMMIT_MSG_PATH, hookContentMessage)}
 	}
