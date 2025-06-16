@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.0](https://github.com/jurienhamaker/commitlint/compare/v1.0.0...v1.1.0) (2025-06-16)
+
+
+### Features
+
+* add win installer ([e0ab952](https://github.com/jurienhamaker/commitlint/commit/e0ab952dc83c71aa4018da8a4587764a9720104e))
+
+
+### Bug Fixes
+
+* **goreleaser:** Set binary & description for brew casket ([6ae32ee](https://github.com/jurienhamaker/commitlint/commit/6ae32ee2e892c1e9311dd9bced54b04e57186a72))
+* **goreleaser:** win_installer needs goreleaser job to be finished ([09c93b8](https://github.com/jurienhamaker/commitlint/commit/09c93b8aad964ec71a1eecf87191bae38a031402))
+
 ## 1.0.0 (2025-06-16)
 
 
