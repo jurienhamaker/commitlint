@@ -16,6 +16,7 @@ import (
 	"github.com/jurienhamaker/commitlint/parser"
 	"github.com/jurienhamaker/commitlint/plugins"
 	"github.com/jurienhamaker/commitlint/validation"
+	"golang.org/x/term"
 )
 
 type Lint struct {
@@ -42,7 +43,7 @@ func (i Lint) Run(ctx *kong.Context) error {
 	}
 
 	var result validation.ValidationsResult
-	if runtime.GOOS == "windows" {
+	if runtime.GOOS == "windows" || !term.IsTerminal(int(os.Stdout.Fd())) {
 		result, err = windoosRun(message)
 	} else {
 		result, err = unixRun(message)
