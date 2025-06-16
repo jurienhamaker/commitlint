@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/jurienhamaker/commitlint/compare/v1.0.0...v1.0.1) (2025-06-16)
+
+
+### Bug Fixes
+
+* **lint:** Remove sleep ([28982bc](https://github.com/jurienhamaker/commitlint/commit/28982bc367d7267d43cae343b6fd58f7bc1f33be))
+
 ## 1.0.0 (2025-06-15)
 
 
