@@ -8,10 +8,16 @@ type ValidationRuleConfig struct {
 	Value  any
 }
 
+type RuleValidationResult struct {
+	Rule    string
+	State   ValidationState
+	Message string
+}
+
 type (
 	ValidationState   int
-	ValidationResult  map[string]ValidationState
-	ValidationsResult map[ValidationState][]string
+	ValidationResult  []RuleValidationResult
+	ValidationsResult map[ValidationState][]RuleValidationResult
 	ValidatorConfig   map[string]ValidationRuleConfig
 	Validator         func(*parser.ConventionalCommit, ValidatorConfig) (ValidationResult, error)
 )

@@ -53,7 +53,7 @@ func (i Lint) Run(ctx *kong.Context) error {
 		os.Exit(1)
 	}
 
-	total, parseResult := parseResult(result)
+	total, parseResult := parseResult(message, result)
 
 	fmt.Println(
 		styles.GrayishStyle(

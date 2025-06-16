@@ -36,8 +36,8 @@ func (pm *PluginManager) RunPluginValidators(commit *parser.ConventionalCommit) 
 			break
 		}
 
-		for message, state := range result {
-			results[state] = append(results[state], message)
+		for _, result := range result {
+			results[result.State] = append(results[result.State], result)
 		}
 	}
 

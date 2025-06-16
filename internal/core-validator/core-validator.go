@@ -1,8 +1,6 @@
 package corevalidator
 
 import (
-	"maps"
-
 	"github.com/jurienhamaker/commitlint/parser"
 	"github.com/jurienhamaker/commitlint/validation"
 
@@ -10,7 +8,7 @@ import (
 )
 
 func CoreValidator(commit *parser.ConventionalCommit, config validation.ValidatorConfig) (result validation.ValidationResult, err error) {
-	result = make(validation.ValidationResult)
+	result = validation.ValidationResult{}
 
 	rules := map[string]ValidatorFn{
 		"body-case":              rules.BodyCase,
@@ -60,14 +58,14 @@ func CoreValidator(commit *parser.ConventionalCommit, config validation.Validato
 			err = validatorErr
 			return
 		}
-		maps.Copy(result, validatorResult)
+		result = append(result, validatorResult...)
 	}
 
 	return
 }
 
 func checkValidator(commit *parser.ConventionalCommit, name string, config validation.ValidatorConfig, fn ValidatorFn) (result validation.ValidationResult, err error) {
-	result = make(validation.ValidationResult)
+	result = validation.ValidationResult{}
 	conf, ok := config[name]
 	if ok {
 		message, state, resultErr := fn(commit, conf)
@@ -76,7 +74,11 @@ func checkValidator(commit *parser.ConventionalCommit, name string, config valid
 			return
 		}
 
-		result[message] = state
+		result = append(result, validation.RuleValidationResult{
+			Rule:    name,
+			State:   state,
+			Message: message,
+		})
 	}
 
 	return

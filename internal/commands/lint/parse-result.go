@@ -2,6 +2,7 @@ package lint
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/jurienhamaker/commitlint/internal/styles"
 	"github.com/jurienhamaker/commitlint/validation"
@@ -9,8 +10,8 @@ import (
 
 type ParseResult map[validation.ValidationState]int
 
-func parseResult(result validation.ValidationsResult) (total int, parseResult ParseResult) {
-	fmt.Println("\nCommitlint result:")
+func parseResult(message string, result validation.ValidationsResult) (total int, parseResult ParseResult) {
+	fmt.Println("\n")
 
 	success := result[validation.ValidationStateSuccess]
 	warning := result[validation.ValidationStateWarning]
@@ -26,6 +27,7 @@ func parseResult(result validation.ValidationsResult) (total int, parseResult Pa
 		fmt.Printf("No rules have been checked")
 	}
 
+	fmt.Printf("  💬 %s\n", styles.SupportiveLilacStyle(strings.ReplaceAll(message, "\\n", "\n\t ")))
 	printStateMessages(success, validation.ValidationStateSuccess)
 	printStateMessages(warning, validation.ValidationStateWarning)
 	printStateMessages(error, validation.ValidationStateError)
@@ -35,10 +37,10 @@ func parseResult(result validation.ValidationsResult) (total int, parseResult Pa
 	return
 }
 
-func printStateMessages(messages []string, state validation.ValidationState) {
-	for _, str := range messages {
+func printStateMessages(messages validation.ValidationResult, state validation.ValidationState) {
+	for _, result := range messages {
 		textStyle := styles.ValidationStateStyle[state]
 		emoji := styles.ValidationStateEmoji[state]
-		fmt.Printf("  %s %s\n", emoji, textStyle(str))
+		fmt.Printf("  %s %s %s\n", emoji, textStyle(result.Message), styles.GrayishStyle(fmt.Sprintf("[%s]", result.Rule)))
 	}
 }
