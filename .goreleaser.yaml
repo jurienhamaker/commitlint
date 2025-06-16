@@ -66,6 +66,8 @@ aurs:
 homebrew_casks:
   - name: commitlint-go
     homepage: https://github.com/jurienhamaker/homebrew-commitlint-go
+    description: A commit message linter for conventional commits written in go
+    binary: commitlint
     repository:
       owner: jurienhamaker
       name: homebrew-commitlint-go
