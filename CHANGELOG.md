@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/jurienhamaker/commitlint/compare/v1.1.1...v1.1.2) (2025-06-16)
+
+
+### Bug Fixes
+
+* **windows installer:** Enable overwrite ([c1b1fd9](https://github.com/jurienhamaker/commitlint/commit/c1b1fd9d4a6389f5c222efe1e086beb96a71ac46))
+
 ## [1.1.1](https://github.com/jurienhamaker/commitlint/compare/v1.1.0...v1.1.1) (2025-06-16)
 
 
