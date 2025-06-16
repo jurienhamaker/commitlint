@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.2](https://github.com/jurienhamaker/commitlint/compare/v1.2.1...v1.2.2) (2025-06-16)
+
+
+### Bug Fixes
+
+* **lint:** Better footer coloring ([2e40fc5](https://github.com/jurienhamaker/commitlint/commit/2e40fc5364885b0f70d1f64599c89eb773fa5185))
+
 ## [1.2.1](https://github.com/jurienhamaker/commitlint/compare/v1.2.0...v1.2.1) (2025-06-16)
 
 
