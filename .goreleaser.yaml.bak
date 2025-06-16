@@ -1,0 +1,19 @@
+project_name: commitlint
+builds:
+  - env: [CGO_ENABLED=0]
+    main: ./cmd/commitlint
+    ldflags: -s -w -X=main.Version={{.Env.Version}} -X=main.CommitSHA={{.Commit}}
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+
+release:
+  github:
+    owner: jurienhamkaer
+    name: commitlint
+  replace_existing_artifacts: true
+  mode: keep-existing
