@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/jurienhamaker/commitlint/compare/v1.1.2...v1.2.0) (2025-06-16)
+
+
+### Features
+
+* add little credit ([c93d142](https://github.com/jurienhamaker/commitlint/commit/c93d142bdb9cb2c1f9076c0a648f9aafa5047432))
+
 ## [1.1.2](https://github.com/jurienhamaker/commitlint/compare/v1.1.1...v1.1.2) (2025-06-16)
 
 
