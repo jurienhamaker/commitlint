@@ -12,46 +12,28 @@ on:
 
 name: release
 jobs:
-  aur-publish:
+  goreleaser:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Set pkgver
-        run: sed -i -e 's/PACKAGE_VERSION/${{github.ref_name}}/g' PKGBUILD
-
-      - name: Publish AUR package
-        uses: KSXGitHub/github-actions-deploy-aur@v4.1.1
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
-          pkgname: commitlint-go
-          pkgbuild: ./PKGBUILD
-          commit_username: ${{ secrets.AUR_USERNAME }}
-          commit_email: ${{ secrets.AUR_EMAIL }}
-          ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
-          commit_message: Automated update for commitlint-go AUR package
-          ssh_keyscan_types: rsa,ecdsa,ed25519
-
-  binary:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        # build and publish in parallel: linux/386, linux/amd64, linux/arm64, windows/386, windows/amd64, darwin/amd64, darwin/arm64
-        goos: [linux, windows, darwin]
-        goarch: ["386", amd64, arm64]
-        exclude:
-          - goarch: "386"
-            goos: darwin
-          - goarch: arm64
-            goos: windows
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: wangyoucao577/go-release-action@v1
-        id: build
+          fetch-depth: 0
+      - name: Set up Go
+        uses: actions/setup-go@v5
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.ref_name }}
+          VERSION: ${{ github.ref_name }}
+          AUR_PRIVATE_KEY: ${{ secrets.AUR_PRIVATE_KEY }}
+          AUR_USERNAME: ${{ secrets.AUR_USERNAME }}
+          AUR_EMAIL: ${{ secrets.AUR_EMAIL }}
+          # GORELEASER_KEY: ${{ secrets.GORELEASER_KEY }}
         with:
-          project_path: ./cmd/commitlint
-          ldflags: -s -w -X=main.Version=${{github.ref_name}} -X=main.CommitSHA=${{ github.sha }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          goos: ${{ matrix.goos }}
-          goarch: ${{ matrix.goarch }}
-          release_name: ${{ github.ref_name }}
+          # either 'goreleaser' (default) or 'goreleaser-pro'
+          distribution: goreleaser
+          # 'latest', 'nightly', or a semver
+          version: "~> v2"
+          args: release --clean
