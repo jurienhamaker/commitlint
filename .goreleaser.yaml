@@ -1,0 +1,72 @@
+version: 2
+
+before:
+  hooks:
+    # You may remove this if you don't use go modules.
+    - go mod tidy
+
+builds:
+  - env: [CGO_ENABLED=0]
+    main: ./cmd/commitlint
+    ldflags: -s -w -X=main.Version={{.Env.VERSION}} -X=main.CommitSHA={{.Commit}}
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+
+release:
+  github:
+    owner: jurienhamaker
+    name: commitlint
+  draft: false
+  replace_existing_artifacts: true
+  mode: keep-existing
+
+archives:
+  - formats: [tar.gz]
+    # this name template makes the OS and Arch compatible with the results of `uname`.
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
+    # use zip for windows archives
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+
+aurs:
+  - name: commitlint-go-bin
+    homepage: https://github.com/jurienhamaker/commitlint
+    description: A commit message linter for conventional commits written in go
+    maintainers:
+      - "Jurien Hamaker <whoami@jurien.dev>"
+    license: MIT
+    private_key: "{{ .Env.AUR_PRIVATE_KEY }}"
+    git_url: "ssh://aur@aur.archlinux.org/commitlint-go-bin.git"
+    provides:
+      - commitlint
+    conflicts:
+      - commitlint
+    depends:
+      - git
+    package: |-
+      # bin
+      install -Dm755 "./commitlint" "${pkgdir}/usr/bin/commitlint"
+    commit_author:
+      name: "{{ .Env.AUR_USERNAME }}"
+      email: "{{ .Env.AUR_EMAIL }}"
+    commit_msg_template: "Automated update for commitlint-go AUR package"
+
+homebrew_casks:
+  - name: commitlint-go
+    homepage: https://github.com/jurienhamaker/homebrew-commitlint-go
+    repository:
+      owner: jurienhamaker
+      name: homebrew-commitlint-go
+      token: "{{ .Env.GITHUB_PERSONAL_AUTH_TOKEN }}"
