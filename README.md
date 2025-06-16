@@ -1,4 +1,17 @@
-# Commitlint
+<br />
+<p align="center">
+  <img src="https://uploads.jurien.dev/Arcticduck/commitlint.png" width="300px" />
+  <br>
+  <br>
+  <a href="https://github.com/jurienhamaker/commitlint/releases"><img src="https://img.shields.io/github/release/jurienhamaker/commitlint.svg" alt="Latest Release"></a>
+  <a href="https://pkg.go.dev/github.com/jurienhamaker/commitlint?tab=doc"><img src="https://godoc.org/github.com/jurienhamaker/commitlint?status.svg" alt="GoDoc"></a>
+  <a href="https://github.com/jurienhamaker/commitlint/actions"><img src="https://github.com/jurienhamaker/commitlint/actions/workflows/release.yml/badge.svg?event=release" alt="Build Status"></a>
+  <a href="https://goreportcard.com/report/github.com/jurienhamaker/commitlint"><img src="https://goreportcard.com/badge/github.com/jurienhamaker/commitlint" alt="Go report card"></a>
+  <br>
+  <a href="https://commitlint.jurien.dev"><img src="https://img.shields.io/badge/documentation-blue?logo=mdBook" alt="Documentation"></a>
+  <a href="https://discord.gg/UttZbEd9zn"><img src="https://img.shields.io/discord/1164669271310356507?logo=discord&label=Discord" alt="Discord"></a>
+</p>
+  <br>
 
 **A lightweight, fast, and cross-platform CLI tool for linting Git commit messages.**
 
@@ -10,166 +23,11 @@ Linting commit messages helps maintain a consistent commit history, which is cri
 - 💻 **Cross-platform support**: Works on Windows, macOS, and Linux.
 - 📦 **Easy installation**: Install with a single command per OS.
 - 🔧 **Project-level integration**: Add to your project with `commitlint install`.
+- 💉 **Plugin system**: Simple & intuitive.
 
----
+![Commitlint in action](https://uploads.jurien.dev/Blacklab/commitlint-example.gif)
 
-## Getting Started
-
-### Step 1: Install the CLI
-
-Choose the appropriate method for your operating system:
-
-#### Windows
-
-1. Go to the [Releases](https://github.com/jurienhamaker/commitlint/releases) page.
-2. Download the Windows installer (`.exe`) for the latest version.
-3. Run the installer to add `commitlint` to your system.
-
-#### macOS
-
-Install using Homebrew:
-
-```bash
-brew install --cask jurienhamaker/commitlint-go/commitlint-go
-```
-
-#### Linux (Arch-based systems)
-
-Install from the AUR (using an AUR helper like `yay` or `paru`):
-
-```bash
-yay -S commitlint-go-bin
-```
-
----
-
-### Step 2: Initialize in Your Repository
-
-In your project directory, run:
-
-```bash
-commitlint install
-```
-
-This command adds `commitlint` to your repository by installing necessary hooks and configuration to lint commit messages before they are created or pushed.
-
----
-
-## Usage
-
-Once installed, `commitlint` automatically lints commit messages via Git hooks. If a commit message does not meet the expected format, the commit is rejected with a descriptive error.
-
-You can also run it manually on a commit message:
-
-```bash
-echo "commit message" | commitlint lint
-```
-
----
-
-## Configuration
-
-Currently, `commitlint` ships with a opinionated set of rules based on the conventional commit format.
-These rules can be changed in the `.commitlint/commitlint.yml` file
-
-**Available rules:**
-
-```yaml
-body-case: [2, "always", "sentencecase"]
-body-empty: [2, "always"]
-body-full-stop: [2, "always"]
-body-leading-blank: [2, "always"]
-body-max-length: [2, "always", 100]
-body-max-line-length: [2, "always", 100]
-body-min-length: [2, "always", 5]
-footer-empty: [2, "always"]
-footer-leading-blank: [2, "always"]
-footer-max-length: [2, "always", 100]
-footer-max-line-length: [2, "always", 100]
-footer-min-length: [2, "always", 5]
-header-case: [2, "always", "lowercase"]
-header-full-stop: [2, "always", "."]
-header-max-length: [2, "always", 5]
-header-min-length: [2, "always", 100]
-header-trim: [2]
-references: [2, "always", ["#"]]
-scope-case:
-  [
-    2,
-    "always",
-    [
-      "upper-case",
-      "lower-case",
-      "pascal-case",
-      "kebab-case",
-      "snake-case",
-      "sentence-case",
-    ],
-  ]
-scope-empty: [2, "never"]
-scope-enum: [2, "always", "scope"]
-scope-max-length: [2, "always", 100]
-scope-min-length: [2, "always", 5]
-signed-off-by: [2, "always"]
-subject-case:
-  [
-    2,
-    "always",
-    [
-      "upper-case",
-      "lower-case",
-      "pascal-case",
-      "kebab-case",
-      "snake-case",
-      "sentence-case",
-    ],
-  ]
-subject-empty: [2, "never"]
-subject-full-stop: [2, "always"]
-subject-max-length: [2, "always", 100]
-subject-min-length: [2, "always", 5]
-type-case: [2, "always", "lowercase"]
-type-empty: [2, "never"]
-type-enum:
-  [
-    2,
-    "always",
-    [
-      "build",
-      "chore",
-      "ci",
-      "docs",
-      "feat",
-      "fix",
-      "perf",
-      "refactor",
-      "revert",
-      "style",
-      "test",
-    ],
-  ]
-type-max-length: [2, "always", 100]
-type-min-length: [2, "always", 2]
-```
-
-**Available cases:**
-
-```
-upper-case
-uppercase
-lower-case
-lowercase
-pascal-case
-pascalcase
-kebab-case
-kebabcase
-snake-case
-snakecase
-sentence-case
-sentencecase
-```
-
----
+<br /><br />
 
 ## Contributing
 
@@ -195,3 +53,4 @@ This project is licensed under the [MIT License](LICENSE).
 - [GitHub Repository](https://github.com/jurienhamaker/commitlint)
 - [Releases](https://github.com/jurienhamaker/commitlint/releases)
 - [Conventional Commits](https://www.conventionalcommits.org/)
+- [Commitlint JS](https://commitlint.js.org/)
