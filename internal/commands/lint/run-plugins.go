@@ -2,7 +2,6 @@ package lint
 
 import (
 	"fmt"
-	"time"
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/log"
@@ -18,8 +17,6 @@ func runPlugins(pm *plugins.PluginManager, message string) (validation.Validatio
 	p := tea.NewProgram(m)
 
 	go func(sub chan spinner.SpinnerResultMsg[validation.ValidationsResult]) {
-		time.Sleep(time.Second * 1)
-
 		commit := parser.ParseConventionalCommit(message)
 		result, err := pm.RunPluginValidators(commit)
 		if err != nil {
