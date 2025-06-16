@@ -1,6 +1,6 @@
 pkgname=commitlint-go-git
 _pkgname=commitlint
-pkgdesc='A commit message linter for conventional commits written in go'
+pkgdesc='A lightweight, fast, and cross-platform CLI tool for linting Git commit messages. '
 pkgver=PACKAGE_VERSION
 pkgrel=1
 arch=('i686' 'x86_64')
