@@ -27,7 +27,7 @@ func parseResult(message string, result validation.ValidationsResult) (total int
 		fmt.Printf("No rules have been checked")
 	}
 
-	fmt.Printf("  💬 %s\n", styles.SupportiveLilacStyle(strings.ReplaceAll(message, "\\n", "\n\t ")))
+	fmt.Printf("  💬 %s\n", styles.SupportiveLilacTextStyle(strings.ReplaceAll(message, "\\n", "\n\t ")))
 	printStateMessages(success, validation.ValidationStateSuccess)
 	printStateMessages(warning, validation.ValidationStateWarning)
 	printStateMessages(error, validation.ValidationStateError)
@@ -41,6 +41,6 @@ func printStateMessages(messages validation.ValidationResult, state validation.V
 	for _, result := range messages {
 		textStyle := styles.ValidationStateStyle[state]
 		emoji := styles.ValidationStateEmoji[state]
-		fmt.Printf("  %s %s %s\n", emoji, textStyle(result.Message), styles.GrayishStyle(fmt.Sprintf("[%s]", result.Rule)))
+		fmt.Printf("  %s %s %s\n", emoji, textStyle(result.Message), styles.GrayishTextStyle(fmt.Sprintf("[%s]", result.Rule)))
 	}
 }

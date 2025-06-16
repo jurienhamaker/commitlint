@@ -82,7 +82,7 @@ func (m SpinnerModel[any]) View() string {
 		"\n  %s %s...\n     %s\n",
 		m.spinner.View(),
 		m.message,
-		styles.GrayishStyle("Press ctrl+c to cancel"),
+		styles.GrayishTextStyle("Press ctrl+c to cancel"),
 	)
 
 	if m.quitting {
