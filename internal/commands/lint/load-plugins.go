@@ -2,7 +2,6 @@ package lint
 
 import (
 	"fmt"
-	"time"
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/log"
@@ -25,7 +24,6 @@ func loadPlugins() (*plugins.PluginManager, error) {
 
 		pm.RegisterPlugin("core", corevalidator.CoreValidator)
 
-		time.Sleep(time.Second * 1)
 		sub <- spinner.SpinnerResultMsg[*plugins.PluginManager]{Result: pm}
 	}(m.ResultChan)
 
