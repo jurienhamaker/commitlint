@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/jurienhamaker/commitlint/compare/v1.2.0...v1.2.1) (2025-06-16)
+
+
+### Bug Fixes
+
+* **lint:** TTY problem when in gitkraken ([f14a555](https://github.com/jurienhamaker/commitlint/commit/f14a555e7a705a02a87b7ed3ec40c7bca7beac67))
+
 ## [1.2.0](https://github.com/jurienhamaker/commitlint/compare/v1.1.2...v1.2.0) (2025-06-16)
 
 
