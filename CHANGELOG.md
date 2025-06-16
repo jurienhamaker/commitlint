@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.1](https://github.com/jurienhamaker/commitlint/compare/v1.1.0...v1.1.1) (2025-06-16)
+
+
+### Bug Fixes
+
+* **install:** Write commit-msg hook as executable ([f2208c0](https://github.com/jurienhamaker/commitlint/commit/f2208c08a7ddb98fb9b11da5386128dbae06c4df))
+* **windows:** Don't show spinners on windows ([79461b7](https://github.com/jurienhamaker/commitlint/commit/79461b7eadc5caee28382d858ade459ed36aea03))
+
 ## [1.1.0](https://github.com/jurienhamaker/commitlint/compare/v1.0.0...v1.1.0) (2025-06-16)
 
 
