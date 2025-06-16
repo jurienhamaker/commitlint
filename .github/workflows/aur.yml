@@ -9,7 +9,7 @@ jobs:
   aur-git:
     runs-on: ubuntu-latest
     if: |
-      ${{ !contains(github.event.head_commit.message, "chore(main): release") }}
+      ${{ !contains(github.event.head_commit.message, 'chore(main): release') }}
     steps:
       - uses: actions/checkout@v4
 
@@ -20,7 +20,7 @@ jobs:
         uses: KSXGitHub/github-actions-deploy-aur@v4.1.1
         with:
           pkgname: commitlint-go-git
-          pkgbuild: ./PKGBUILD.git
+          pkgbuild: ./PKGBUILD-git
           commit_username: ${{ secrets.AUR_USERNAME }}
           commit_email: ${{ secrets.AUR_EMAIL }}
           ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}

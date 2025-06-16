@@ -38,3 +38,50 @@ jobs:
           # 'latest', 'nightly', or a semver
           version: "~> v2"
           args: release --clean
+  win_installer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download EnVar plugin for NSIS
+        uses: carlosperate/download-file-action@v1.0.3
+        with:
+          file-url: https://nsis.sourceforge.io/mediawiki/images/7/7f/EnVar_plugin.zip
+          file-name: envar_plugin.zip
+          location: ${{ github.workspace }}
+
+      - name: Download latest release and unzip
+        run: |
+          curl -s https://api.github.com/repos/jurienhamaker/commitlint/releases/latest | sed -n 's/"browser_download_url": "\(.*\)commitlint_Windows_x86_64.zip"$/\1commitlint_Windows_x86_64.zip/p' | wget -i-
+          mkdir unzipped
+          unzip commitlint_Windows_x86_64.zip -d unzipped
+
+      - name: Extract EnVar plugin
+        run: 7z x -o"${{ github.workspace }}/NSIS_Plugins" "${{ github.workspace }}/envar_plugin.zip"
+
+      - name: "Install makensis"
+        run: sudo apt update && sudo apt install -y nsis nsis-pluginapi
+
+      - name: "Set Plugin permissions"
+        run: sudo chown -R $(whoami) /usr/share/nsis/Plugins/
+
+      - name: Create nsis installer
+        uses: joncloud/makensis-action@publish
+        with:
+          script-file: windows_installer.nsi
+          additional-plugin-paths: ${{ github.workspace }}/NSIS_Plugins/Plugins
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: commitlint_installer.exe
+          path: commitlint_installer.exe
+
+      - name: upload installer
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: commitlint_installer.exe
+          asset_name: commitlint_installer.exe
+          tag: ${{ github.ref_name }}
+          overwrite: true
