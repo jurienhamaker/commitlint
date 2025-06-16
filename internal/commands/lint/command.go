@@ -5,12 +5,16 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"runtime"
 	"strings"
 
 	"github.com/alecthomas/kong"
 	"github.com/jurienhamaker/commitlint/config"
+	corevalidator "github.com/jurienhamaker/commitlint/internal/core-validator"
 	"github.com/jurienhamaker/commitlint/internal/styles"
 	"github.com/jurienhamaker/commitlint/internal/utils"
+	"github.com/jurienhamaker/commitlint/parser"
+	"github.com/jurienhamaker/commitlint/plugins"
 	"github.com/jurienhamaker/commitlint/validation"
 )
 
@@ -37,13 +41,13 @@ func (i Lint) Run(ctx *kong.Context) error {
 		os.Exit(1)
 	}
 
-	pm, err := loadPlugins()
-	if err != nil {
-		utils.ReplyError(err.Error())
-		os.Exit(1)
+	var result validation.ValidationsResult
+	if runtime.GOOS == "windows" {
+		result, err = windoosRun(message)
+	} else {
+		result, err = unixRun(message)
 	}
 
-	result, err := runPlugins(pm, message)
 	if err != nil {
 		utils.ReplyError(err.Error())
 		os.Exit(1)
@@ -96,6 +100,36 @@ func validateInput(input []string) (message string, err error) {
 	}
 
 	return
+}
+
+func unixRun(message string) (validation.ValidationsResult, error) {
+	pm, err := loadPlugins()
+	if err != nil {
+		return nil, fmt.Errorf("unix run error: %s", err)
+	}
+
+	result, err := runPlugins(pm, message)
+	if err != nil {
+		return nil, fmt.Errorf("unix run error: %s", err)
+	}
+
+	return result, nil
+}
+
+func windoosRun(message string) (validation.ValidationsResult, error) {
+	pm, err := plugins.LoadPlugins(".commitlint/plugins")
+	if err != nil {
+		return nil, fmt.Errorf("windows run error: %s", err)
+	}
+	pm.RegisterPlugin("core", corevalidator.CoreValidator)
+
+	commit := parser.ParseConventionalCommit(message)
+	result, err := pm.RunPluginValidators(commit)
+	if err != nil {
+		return nil, fmt.Errorf("windows run error: %s", err)
+	}
+
+	return result, nil
 }
 
 func isInputPiped() bool {
