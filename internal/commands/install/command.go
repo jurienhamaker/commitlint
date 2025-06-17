@@ -78,7 +78,7 @@ func (i Install) Run(ctx *kong.Context) error {
 					fmt.Sprintf(`Use "git config --global core.hooksPath %s/hooks"`, globalPath),
 				),
 				styles.SupportiveLilacTextStyleHyperlink(
-					"Or click here to check out our guide on how to add global hooks!", "https://commitlint.jurien.dev/guides/global-hooks",
+					"Or click here to check out our guide on how to add global hooks!", "https://commitlint.jurien.dev/guides/global-configuration",
 				),
 			)
 		}
@@ -94,7 +94,7 @@ func (i Install) Run(ctx *kong.Context) error {
 			"Did you know you can configure a global config?",
 		),
 		styles.SupportiveLilacTextStyleHyperlink(
-			"Click here to checkout our guide on how to add global hooks!", "https://commitlint.jurien.dev/guides/global-hooks",
+			"Click here to checkout our guide on how to add global configuration!", "https://commitlint.jurien.dev/guides/global-configuration",
 		),
 	)
 	return nil
