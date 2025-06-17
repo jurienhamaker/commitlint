@@ -113,6 +113,27 @@ func GetConfig() *Config {
 	return &c
 }
 
+func GetUserHome() (string, error) {
+	runtimeUser, err := user.Current()
+	if err != nil {
+		return "", fmt.Errorf("could not retrieve user: %s", err)
+	}
+
+	return runtimeUser.HomeDir, nil
+}
+
+func GetGlobalPath() (string, error) {
+	homeDir, err := GetUserHome()
+	if err != nil {
+		return "", err
+	}
+
+	if runtime.GOOS == "windows" {
+		return fmt.Sprintf("%s/AppData/Roaming/%s", homeDir, constants.CONFIG_NAME), nil
+	}
+	return fmt.Sprintf("%s/.config/%s", homeDir, constants.CONFIG_NAME), nil
+}
+
 func GetPath(global bool) (string, error) {
 	directory, err := os.Getwd()
 	if err != nil {
@@ -122,15 +143,9 @@ func GetPath(global bool) (string, error) {
 	configPath := fmt.Sprintf("%s/%s", directory, constants.CONFIG_PATH)
 
 	if global {
-		runtimeUser, err := user.Current()
+		configPath, err = GetGlobalPath()
 		if err != nil {
-			return "", fmt.Errorf("could not retrieve user: %s", err)
-		}
-
-		if runtime.GOOS == "windows" {
-			configPath = fmt.Sprintf("%s/AppData/Roaming/%s", runtimeUser.HomeDir, constants.CONFIG_NAME)
-		} else {
-			configPath = fmt.Sprintf("%s/.config/%s", runtimeUser.HomeDir, constants.CONFIG_NAME)
+			return "", err
 		}
 	}
 

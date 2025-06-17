@@ -3,10 +3,14 @@ package constants
 import "fmt"
 
 const (
-	GIT_PATH = ".git"
+	GIT_PATH        = ".git"
+	HOOKS_DIRECTORY = "hooks"
+	COMMIT_MSG_FILE = "commit-msg"
 )
 
 var (
-	HOOKS_PATH      = fmt.Sprintf("%s/hooks", GIT_PATH)
-	COMMIT_MSG_PATH = fmt.Sprintf("%s/commit-msg", HOOKS_PATH)
+	HOOKS_PATH_LOCAL      = fmt.Sprintf("%s/%s", GIT_PATH, HOOKS_DIRECTORY)
+	COMMIT_MSG_PATH_LOCAL = fmt.Sprintf("%s/%s", HOOKS_PATH_LOCAL, COMMIT_MSG_FILE)
+
+	COMMIT_MSG_PATH = fmt.Sprintf("%s/%s", HOOKS_DIRECTORY, COMMIT_MSG_FILE)
 )

@@ -8,6 +8,7 @@ import (
 	"github.com/alecthomas/kong"
 	tea "github.com/charmbracelet/bubbletea"
 
+	"github.com/jurienhamaker/commitlint/config"
 	"github.com/jurienhamaker/commitlint/internal/spinner"
 	"github.com/jurienhamaker/commitlint/internal/styles"
 	"github.com/jurienhamaker/commitlint/internal/utils"
@@ -45,16 +46,25 @@ func (i Install) Run(ctx *kong.Context) error {
 	}
 
 	if i.Global {
+		globalPath, _ := config.GetGlobalPath()
+		if strings.Contains(globalPath, ".config") {
+			homeDir, _ := config.GetUserHome()
+			globalPath = strings.Replace(globalPath, homeDir, "~", 1)
+		}
+
 		fmt.Printf(
-			"\n%s\n%s %s\n\n",
+			"\n%s\n\n%s\n%s\n%s\n\n",
 			styles.SuccessTextStyle(
 				"Success: Installed commitlint globally",
 			),
-			styles.GrayishTextStyle(
+			styles.WhiteTextStyle(
 				"Want to globally install commit hooks?",
 			),
+			styles.LightGrayTextStyle(
+				fmt.Sprintf(`Use "git config --global core.hooksPath %s/hooks"`, globalPath),
+			),
 			styles.SupportiveLilacTextStyleHyperlink(
-				"Click here to check out our guide!", "https://commitlint.jurien.dev/guides/global-hooks",
+				"Or check out our guide on how to add global hooks!", "https://commitlint.jurien.dev/guides/global-hooks",
 			),
 		)
 		return nil

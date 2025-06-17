@@ -13,6 +13,8 @@ var (
 
 	SupportiveLilacTextStyleRaw = lipgloss.NewStyle().Foreground(lipgloss.Color("#D1AEFF"))
 	GrayishTextStyle            = lipgloss.NewStyle().Foreground(lipgloss.Color("#626262")).Render
+	LightGrayTextStyle          = lipgloss.NewStyle().Foreground(lipgloss.Color("#AAAAAA")).Render
+	WhiteTextStyle              = lipgloss.NewStyle().Foreground(lipgloss.Color("#FFFFFF")).Render
 	SupportiveLilacTextStyle    = SupportiveLilacTextStyleRaw.Render
 	ErrorTextStyle              = lipgloss.NewStyle().Foreground(lipgloss.Color("#cc3300")).Render
 	WarningTextStyle            = lipgloss.NewStyle().Foreground(lipgloss.Color("#ff9966")).Render
