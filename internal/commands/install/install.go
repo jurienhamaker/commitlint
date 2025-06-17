@@ -5,6 +5,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/jurienhamaker/commitlint/config"
 	"github.com/jurienhamaker/commitlint/internal/constants"
 	"github.com/jurienhamaker/commitlint/internal/spinner"
 )
@@ -52,11 +53,16 @@ func hookExists() error {
 	return nil
 }
 
-func checkConfigFile() error {
-	configStat, err := os.Stat(constants.CONFIG_PATH)
+func checkConfigFile(global bool) error {
+	configPath, err := config.GetPath(global)
+	if err != nil {
+		return fmt.Errorf("could not get path: %s", err)
+	}
+
+	configStat, err := os.Stat(configPath)
 	created := false
 	if os.IsNotExist(err) {
-		err = os.Mkdir(constants.CONFIG_PATH, 0o750)
+		err = os.Mkdir(configPath, 0o750)
 		created = true
 		if err != nil {
 			return fmt.Errorf("could not create %s folder", constants.CONFIG_PATH)
@@ -67,11 +73,16 @@ func checkConfigFile() error {
 		return fmt.Errorf("%s is not a folder", constants.CONFIG_PATH)
 	}
 
-	_, err = os.Stat(constants.CONFIG_FILE_PATH)
+	configFilePath, err := config.GetFilePath(global)
+	if err != nil {
+		return fmt.Errorf("could not get filepath: %s", err)
+	}
+
+	_, err = os.Stat(configFilePath)
 	if os.IsNotExist(err) {
 		//  we will create the default config
 		command := []byte(constants.DEFAULT_CONFIG)
-		err = os.WriteFile(constants.CONFIG_FILE_PATH, command, 0o600)
+		err = os.WriteFile(configFilePath, command, 0o600)
 		if err != nil {
 			return fmt.Errorf("could not create config file: %s", err)
 		}
@@ -80,29 +91,31 @@ func checkConfigFile() error {
 	return nil
 }
 
-func install(sub chan spinner.SpinnerResultMsg[bool]) {
-	err := checkConfigFile()
+func install(sub chan spinner.SpinnerResultMsg[bool], global bool) {
+	err := checkConfigFile(global)
 	if err != nil {
 		sub <- spinner.SpinnerResultMsg[bool]{Error: err}
 		return
 	}
 
-	err = ensureHooksDirectory()
-	if err != nil {
-		sub <- spinner.SpinnerResultMsg[bool]{Error: err}
-		return
-	}
+	if !global {
+		err = ensureHooksDirectory()
+		if err != nil {
+			sub <- spinner.SpinnerResultMsg[bool]{Error: err}
+			return
+		}
 
-	err = hookExists()
-	if err != nil {
-		sub <- spinner.SpinnerResultMsg[bool]{Error: err}
-		return
-	}
+		err = hookExists()
+		if err != nil {
+			sub <- spinner.SpinnerResultMsg[bool]{Error: err}
+			return
+		}
 
-	command := []byte(hookContent)
-	err = os.WriteFile(constants.COMMIT_MSG_PATH, command, 0o700)
-	if err != nil {
-		sub <- spinner.SpinnerResultMsg[bool]{Error: fmt.Errorf("couldn't create %s.\n%s", constants.COMMIT_MSG_PATH, hookContentMessage)}
+		command := []byte(hookContent)
+		err = os.WriteFile(constants.COMMIT_MSG_PATH, command, 0o700)
+		if err != nil {
+			sub <- spinner.SpinnerResultMsg[bool]{Error: fmt.Errorf("couldn't create %s.\n%s", constants.COMMIT_MSG_PATH, hookContentMessage)}
+		}
 	}
 
 	time.Sleep(time.Second * 1)

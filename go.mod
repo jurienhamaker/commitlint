@@ -8,11 +8,13 @@ require (
 	github.com/charmbracelet/bubbles v0.21.0
 	github.com/charmbracelet/bubbletea v1.3.5
 	github.com/charmbracelet/lipgloss v1.1.0
+	github.com/charmbracelet/lipgloss/v2 v2.0.0-alpha.2.0.20250218201110-1d6564167925
 	github.com/charmbracelet/log v0.4.2
 	github.com/iancoleman/strcase v0.3.0
 	github.com/muesli/roff v0.1.0
 	github.com/muesli/termenv v0.16.0
 	github.com/spf13/viper v1.20.1
+	golang.org/x/term v0.32.0
 )
 
 require (
@@ -46,7 +48,6 @@ require (
 	golang.org/x/exp v0.0.0-20231006140011-7918f672742d // indirect
 	golang.org/x/sync v0.13.0 // indirect
 	golang.org/x/sys v0.33.0 // indirect
-	golang.org/x/term v0.32.0 // indirect
 	golang.org/x/text v0.21.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

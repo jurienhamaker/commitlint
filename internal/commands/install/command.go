@@ -1,6 +1,7 @@
 package install
 
 import (
+	"fmt"
 	"os"
 	"strings"
 
@@ -8,16 +9,24 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 
 	"github.com/jurienhamaker/commitlint/internal/spinner"
+	"github.com/jurienhamaker/commitlint/internal/styles"
 	"github.com/jurienhamaker/commitlint/internal/utils"
 )
 
-type Install struct{}
+type Install struct {
+	Global bool `help:"Wether to install commitlint config globally"`
+}
 
 func (i Install) Run(ctx *kong.Context) error {
-	m := spinner.CreateSpinner[bool]("Installing commitlint in your repository")
+	message := "Installing commitlint in your repository"
+	if i.Global {
+		message = "Installing commitlint globally"
+	}
+
+	m := spinner.CreateSpinner[bool](message)
 	p := tea.NewProgram(m)
 
-	go install(m.ResultChan)
+	go install(m.ResultChan, i.Global)
 
 	run, err := p.Run()
 	if err != nil {
@@ -33,6 +42,22 @@ func (i Install) Run(ctx *kong.Context) error {
 		}
 
 		utils.ReplyWarning(result.Error.Error())
+	}
+
+	if i.Global {
+		fmt.Printf(
+			"\n%s\n%s %s\n\n",
+			styles.SuccessTextStyle(
+				"Success: Installed commitlint globally",
+			),
+			styles.GrayishTextStyle(
+				"Want to globally install commit hooks?",
+			),
+			styles.SupportiveLilacTextStyleHyperlink(
+				"Click here to check out our guide!", "https://commitlint.jurien.dev/guides/global-hooks",
+			),
+		)
+		return nil
 	}
 
 	utils.ReplySuccess("Installed commitlint in your repository")
