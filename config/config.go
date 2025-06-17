@@ -3,6 +3,9 @@ package config
 import (
 	"errors"
 	"fmt"
+	"os"
+	"os/user"
+	"runtime"
 
 	"github.com/jurienhamaker/commitlint/internal/constants"
 	"github.com/jurienhamaker/commitlint/validation"
@@ -22,7 +25,16 @@ var c Config
 func init() {
 	viper.SetConfigName(constants.CONFIG_NAME)
 	viper.SetConfigType(constants.CONFIG_TYPE)
-	viper.AddConfigPath(constants.CONFIG_PATH)
+
+	repoPath, err := GetPath(false)
+	if err == nil {
+		viper.AddConfigPath(repoPath)
+	}
+
+	globalPath, err := GetPath(true)
+	if err == nil {
+		viper.AddConfigPath(globalPath)
+	}
 }
 
 func parseRuleConfig(ruleConfig []any) (c validation.ValidationRuleConfig, err error) {
@@ -99,4 +111,38 @@ func Load() error {
 
 func GetConfig() *Config {
 	return &c
+}
+
+func GetPath(global bool) (string, error) {
+	directory, err := os.Getwd()
+	if err != nil {
+		return "", fmt.Errorf("could not retrieve current directory: %s", err)
+	}
+
+	configPath := fmt.Sprintf("%s/%s", directory, constants.CONFIG_PATH)
+
+	if global {
+		runtimeUser, err := user.Current()
+		if err != nil {
+			return "", fmt.Errorf("could not retrieve user: %s", err)
+		}
+
+		if runtime.GOOS == "windows" {
+			configPath = fmt.Sprintf("%s/AppData/Roaming/%s", runtimeUser.HomeDir, constants.CONFIG_NAME)
+		} else {
+			configPath = fmt.Sprintf("%s/.config/%s", runtimeUser.HomeDir, constants.CONFIG_NAME)
+		}
+	}
+
+	return configPath, nil
+}
+
+func GetFilePath(global bool) (string, error) {
+	configPath, err := GetPath(global)
+	if err != nil {
+		return "", err
+	}
+
+	configFilePath := fmt.Sprintf("%s/%s", configPath, constants.CONFIG_FILE_NAME)
+	return configFilePath, nil
 }
