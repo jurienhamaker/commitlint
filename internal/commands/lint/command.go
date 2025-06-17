@@ -59,17 +59,12 @@ func (i Lint) Run(ctx *kong.Context) error {
 	fmt.Println(
 		styles.GrayishTextStyle(
 			fmt.Sprintf(
-				"%d rules checked. %d success, %d warnings & %d errors",
+				"%d rules checked. %d success, %d warnings & %d errors\n",
 				total,
 				parseResult[validation.ValidationStateSuccess],
 				parseResult[validation.ValidationStateWarning],
 				parseResult[validation.ValidationStateError],
 			),
-		),
-	)
-	fmt.Println(
-		styles.GrayishTextStyle(
-			fmt.Sprintf("With %s %s\n", styles.ErrorTextStyle("<3"), styles.GrayishTextStyle("by Jurien.dev")),
 		),
 	)
 	if parseResult[validation.ValidationStateError] > 0 {
