@@ -78,13 +78,24 @@ func (i Install) Run(ctx *kong.Context) error {
 					fmt.Sprintf(`Use "git config --global core.hooksPath %s/hooks"`, globalPath),
 				),
 				styles.SupportiveLilacTextStyleHyperlink(
-					"Or check out our guide on how to add global hooks!", "https://commitlint.jurien.dev/guides/global-hooks",
+					"Or click here to check out our guide on how to add global hooks!", "https://commitlint.jurien.dev/guides/global-hooks",
 				),
 			)
 		}
 		return nil
 	}
 
-	utils.ReplySuccess("Installed commitlint in your repository")
+	fmt.Printf(
+		"\n%s\n\n%s\n%s\n\n",
+		styles.SuccessTextStyle(
+			"Success: Installed commitlint in your repository",
+		),
+		styles.WhiteTextStyle(
+			"Did you know you can configure a global config?",
+		),
+		styles.SupportiveLilacTextStyleHyperlink(
+			"Click here to checkout our guide on how to add global hooks!", "https://commitlint.jurien.dev/guides/global-hooks",
+		),
+	)
 	return nil
 }
