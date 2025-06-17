@@ -15,6 +15,7 @@ import (
 
 	"github.com/jurienhamaker/commitlint/internal/commitlint"
 	"github.com/jurienhamaker/commitlint/internal/exit"
+	"github.com/jurienhamaker/commitlint/internal/styles"
 )
 
 const shaLen = 7
@@ -48,7 +49,12 @@ func main() {
 	cli := &commitlint.Commitlint{}
 	ctx := kong.Parse(
 		cli,
-		kong.Description("A tool to apply commitlint to your commits ✨"),
+		kong.Description(fmt.Sprintf(`%s
+
+%s`,
+			styles.SupportiveLilacTextStyle(`A lightweight, fast, and cross-platform CLI tool for linting Git commit messages. ✨`),
+			fmt.Sprintf("%s %s %s", "With", styles.ErrorTextStyle("<3"), "by Jurien.dev"),
+		)),
 		kong.UsageOnError(),
 		kong.ConfigureHelp(kong.HelpOptions{
 			Compact:             true,
