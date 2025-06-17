@@ -3,40 +3,14 @@ permissions:
   contents: write
 
 on:
-  release:
-    types: [created]
+  push:
+    branches:
+      - main
 
-name: release
+name: msi
 jobs:
-  goreleaser:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Set up Go
-        uses: actions/setup-go@v5
-      - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v6
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAG: ${{ github.ref_name }}
-          VERSION: ${{ github.ref_name }}
-          GITHUB_PERSONAL_AUTH_TOKEN: ${{ secrets.PAT }}
-          AUR_PRIVATE_KEY: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
-          AUR_USERNAME: ${{ secrets.AUR_USERNAME }}
-          AUR_EMAIL: ${{ secrets.AUR_EMAIL }}
-          # GORELEASER_KEY: ${{ secrets.GORELEASER_KEY }}
-        with:
-          # either 'goreleaser' (default) or 'goreleaser-pro'
-          distribution: goreleaser
-          # 'latest', 'nightly', or a semver
-          version: "~> v2"
-          args: release --clean
   create-msi:
     runs-on: windows-latest
-    needs: goreleaser
     steps:
       - uses: actions/checkout@v4
 
@@ -54,7 +28,7 @@ jobs:
         run: |
           $version = '${{github.ref_name}}'.Replace('v', '');
           & 'C:\Program Files\go-msi\go-msi.exe' set-guid --path $PWD/wix.json
-          & 'C:\Program Files\go-msi\go-msi.exe' make --path $PWD/wix.json --msi commitlint_installer.msi --out $PWD/dist --version $version
+          & 'C:\Program Files\go-msi\go-msi.exe' make --path $PWD/wix.json --msi commitlint_installer.msi --out $PWD/dist --version 1.4.0
 
       - name: upload installer
         uses: svenstaro/upload-release-action@v2
