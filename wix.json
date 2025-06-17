@@ -1,0 +1,46 @@
+{
+  "product": "Commitlint",
+  "company": "jurien.dev",
+  "license": "LICENSE",
+  "upgrade-code": "",
+  "files": {
+    "guid": "",
+    "items": [
+      "unzipped/commitlint.exe",
+      "unzipped/LICENSE",
+      "unzipped/README.md",
+      "unzipped/CHANGELOG.md"
+    ]
+  },
+  "env": {
+    "guid": "",
+    "vars": [
+      {
+        "name": "PATH",
+        "value": "[INSTALLDIR]",
+        "permanent": "no",
+        "system": "no",
+        "action": "set",
+        "part": "last"
+      }
+    ]
+  },
+  "shortcuts": {
+    "guid": "",
+    "items": [
+      {
+        "name": "Commitlint",
+        "description": "MSI pakage for your product",
+        "target": "[INSTALLDIR]\\commitlint.exe",
+        "wdir": "INSTALLDIR",
+        "arguments": "",
+        "icon": ""
+      }
+    ]
+  },
+  "choco": {
+    "description": "A lightweight, fast, and cross-platform CLI tool for linting Git commit messages.",
+    "tags": "Commitlint",
+    "license-url": "https://opensource.org/licenses/MIT"
+  }
+}
