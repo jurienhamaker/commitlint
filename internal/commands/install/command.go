@@ -15,7 +15,8 @@ import (
 )
 
 type Install struct {
-	Global bool `help:"Wether to install commitlint config globally"`
+	Global        bool `help:"Wether to install commitlint config globally"`
+	RegisterHooks bool `help:"Wether to register commitlint global hooks to git"`
 }
 
 func (i Install) Run(ctx *kong.Context) error {
@@ -24,10 +25,15 @@ func (i Install) Run(ctx *kong.Context) error {
 		message = "Installing commitlint globally"
 	}
 
+	if i.RegisterHooks && !i.Global {
+		utils.ReplyError("You can only register hooks to git if you install commitlint globally")
+		os.Exit(0)
+	}
+
 	m := spinner.CreateSpinner[bool](message)
 	p := tea.NewProgram(m)
 
-	go install(m.ResultChan, i.Global)
+	go install(m.ResultChan, i.Global, i.RegisterHooks)
 
 	run, err := p.Run()
 	if err != nil {
@@ -52,21 +58,30 @@ func (i Install) Run(ctx *kong.Context) error {
 			globalPath = strings.Replace(globalPath, homeDir, "~", 1)
 		}
 
-		fmt.Printf(
-			"\n%s\n\n%s\n%s\n%s\n\n",
-			styles.SuccessTextStyle(
-				"Success: Installed commitlint globally",
-			),
-			styles.WhiteTextStyle(
-				"Want to globally install commit hooks?",
-			),
-			styles.LightGrayTextStyle(
-				fmt.Sprintf(`Use "git config --global core.hooksPath %s/hooks"`, globalPath),
-			),
-			styles.SupportiveLilacTextStyleHyperlink(
-				"Or check out our guide on how to add global hooks!", "https://commitlint.jurien.dev/guides/global-hooks",
-			),
-		)
+		if i.RegisterHooks {
+			fmt.Printf(
+				"\n%s\n\n",
+				styles.SuccessTextStyle(
+					"Success: Installed commitlint globally & registered hooks folder to git",
+				),
+			)
+		} else {
+			fmt.Printf(
+				"\n%s\n\n%s\n%s\n%s\n\n",
+				styles.SuccessTextStyle(
+					"Success: Installed commitlint globally",
+				),
+				styles.WhiteTextStyle(
+					"Want to globally install commit hooks?",
+				),
+				styles.LightGrayTextStyle(
+					fmt.Sprintf(`Use "git config --global core.hooksPath %s/hooks"`, globalPath),
+				),
+				styles.SupportiveLilacTextStyleHyperlink(
+					"Or check out our guide on how to add global hooks!", "https://commitlint.jurien.dev/guides/global-hooks",
+				),
+			)
+		}
 		return nil
 	}
 

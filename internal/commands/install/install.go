@@ -3,6 +3,7 @@ package install
 import (
 	"fmt"
 	"os"
+	"os/exec"
 	"time"
 
 	"github.com/jurienhamaker/commitlint/config"
@@ -31,7 +32,7 @@ func getHooksPath(global bool) (string, error) {
 	return hooksPath, nil
 }
 
-func ensureHooksDirectory(global bool) error {
+func ensureHooksDirectory(hooksPath string, global bool) error {
 	if !global {
 		gitStat, err := os.Stat(constants.GIT_PATH)
 		if os.IsNotExist(err) {
@@ -41,11 +42,6 @@ func ensureHooksDirectory(global bool) error {
 		if !gitStat.IsDir() {
 			return fmt.Errorf("%s is not a folder", constants.GIT_PATH)
 		}
-	}
-
-	hooksPath, err := getHooksPath(global)
-	if err != nil {
-		return err
 	}
 
 	hooksStat, err := os.Stat(hooksPath)
@@ -122,14 +118,20 @@ func checkConfigFile(global bool) error {
 	return nil
 }
 
-func install(sub chan spinner.SpinnerResultMsg[bool], global bool) {
+func install(sub chan spinner.SpinnerResultMsg[bool], global bool, registerHooks bool) {
 	err := checkConfigFile(global)
 	if err != nil {
 		sub <- spinner.SpinnerResultMsg[bool]{Error: err}
 		return
 	}
 
-	err = ensureHooksDirectory(global)
+	hooksPath, err := getHooksPath(global)
+	if err != nil {
+		sub <- spinner.SpinnerResultMsg[bool]{Error: err}
+		return
+	}
+
+	err = ensureHooksDirectory(hooksPath, global)
 	if err != nil {
 		sub <- spinner.SpinnerResultMsg[bool]{Error: err}
 		return
@@ -142,12 +144,7 @@ func install(sub chan spinner.SpinnerResultMsg[bool], global bool) {
 	}
 
 	err = hookExists(hookFilePath)
-	if err != nil && global {
-		time.Sleep(time.Second * 1)
-		sub <- spinner.SpinnerResultMsg[bool]{Result: true}
-	}
-
-	if err != nil {
+	if err != nil && !global {
 		sub <- spinner.SpinnerResultMsg[bool]{Error: err}
 		return
 	}
@@ -156,6 +153,16 @@ func install(sub chan spinner.SpinnerResultMsg[bool], global bool) {
 	err = os.WriteFile(hookFilePath, command, 0o700)
 	if err != nil {
 		sub <- spinner.SpinnerResultMsg[bool]{Error: fmt.Errorf("couldn't create %s.\n%s", constants.COMMIT_MSG_PATH_LOCAL, hookContentMessage)}
+		return
+	}
+
+	if registerHooks && global {
+		cmd := exec.Command("git", "config", "--global", "core.hooksPath", hooksPath)
+		_, err := cmd.Output()
+		if err != nil {
+			sub <- spinner.SpinnerResultMsg[bool]{Error: fmt.Errorf("couldn't register hooks path to git: %s", err)}
+			return
+		}
 	}
 
 	time.Sleep(time.Second * 1)
