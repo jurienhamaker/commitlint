@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.0](https://github.com/jurienhamaker/commitlint/compare/v1.3.0...v1.4.0) (2025-06-17)
+
+
+### Features
+
+* Update the help description ([6edb9bb](https://github.com/jurienhamaker/commitlint/commit/6edb9bbbdf64a8980a61e33e3c8d59e3e0dcae10))
+
+
+### Reverts
+
+* Remove the with &lt;3 by jurien.dev footer on the result ([8d84a5e](https://github.com/jurienhamaker/commitlint/commit/8d84a5e8cb69c8f19406b61c8c1b2a6c408110d8))
+
 ## [1.3.0](https://github.com/jurienhamaker/commitlint/compare/v1.2.2...v1.3.0) (2025-06-17)
 
 
