@@ -4,6 +4,7 @@ import "fmt"
 
 const (
 	DEFAULT_CONFIG = `enabled: true
+use-emoji: true
 
 rules:
   header-max-length: [2, "always", 100]

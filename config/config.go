@@ -11,8 +11,9 @@ import (
 
 type (
 	Config struct {
-		Enabled bool
-		Rules   validation.ValidatorConfig
+		Enabled  bool
+		UseEmoji bool
+		Rules    validation.ValidatorConfig
 	}
 )
 
@@ -68,6 +69,7 @@ func parseRuleConfig(ruleConfig []any) (c validation.ValidationRuleConfig, err e
 func parseConfig() Config {
 	c = Config{}
 	c.Enabled = viper.GetBool("enabled")
+	c.UseEmoji = viper.GetBool("use-emoji")
 
 	c.Rules = make(validation.ValidatorConfig)
 	rules := viper.GetStringMap("rules")
