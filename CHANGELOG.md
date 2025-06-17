@@ -5,6 +5,14 @@
 
 ### Features
 
+* Generate msi instead of nsis ([57ba3fa](https://github.com/jurienhamaker/commitlint/commit/57ba3fa229b37e4a6bf6fc6ffd76a12fd58b2a45))
+* Generate msi instead of nsis ([57ba3fa](https://github.com/jurienhamaker/commitlint/commit/57ba3fa229b37e4a6bf6fc6ffd76a12fd58b2a45))
+
+## [1.5.0](https://github.com/jurienhamaker/commitlint/compare/v1.4.0...v1.5.0) (2025-06-17)
+
+
+### Features
+
 * Generate msi instead of nsis ([635104d](https://github.com/jurienhamaker/commitlint/commit/635104dd4299567fdf9eed119ccf1cfa564eac50))
 
 ## [1.4.0](https://github.com/jurienhamaker/commitlint/compare/v1.3.0...v1.4.0) (2025-06-17)
