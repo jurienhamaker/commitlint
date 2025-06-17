@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/jurienhamaker/commitlint/compare/v1.2.2...v1.3.0) (2025-06-17)
+
+
+### Features
+
+* Add ability to disable emoji's and use unicode instead ([7e2c9f1](https://github.com/jurienhamaker/commitlint/commit/7e2c9f16ea9d891e11e345e8ecfa5162139c1bda))
+
 ## [1.2.2](https://github.com/jurienhamaker/commitlint/compare/v1.2.1...v1.2.2) (2025-06-16)
 
 
