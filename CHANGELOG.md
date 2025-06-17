@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.6.0](https://github.com/jurienhamaker/commitlint/compare/v1.5.0...v1.6.0) (2025-06-17)
+
+
+### Features
+
+* **config:** Add ability to load from global file ([91ff053](https://github.com/jurienhamaker/commitlint/commit/91ff0539571d7fece19f7addb67b68c25f1792f0))
+* **install:** Add flag to automatically register hooks folder to git ([6b56c25](https://github.com/jurienhamaker/commitlint/commit/6b56c255214192c5cb76cf7932efe1cbe60cf579))
+* **install:** Add flag to install global config ([7b94ef2](https://github.com/jurienhamaker/commitlint/commit/7b94ef25f5ac617e82a1f66f37d9938ab5de6214))
+* **install:** Also apply a default commit-msg hook ([c03d0b4](https://github.com/jurienhamaker/commitlint/commit/c03d0b4bfded5f0479e300da8d8ae92122916af9))
+
 ## [1.5.0](https://github.com/jurienhamaker/commitlint/compare/v1.4.0...v1.5.0) (2025-06-17)
 
 
