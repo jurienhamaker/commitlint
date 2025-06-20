@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.1](https://github.com/jurienhamaker/commitlint/compare/v1.7.0...v1.7.1) (2025-06-20)
+
+
+### Bug Fixes
+
+* **release:** Use a classic token for winget updater ([34aaccf](https://github.com/jurienhamaker/commitlint/commit/34aaccfd41dd692867878e1e16d1f1f0d5cb86eb))
+
 ## [1.7.0](https://github.com/jurienhamaker/commitlint/compare/v1.6.0...v1.7.0) (2025-06-20)
 
 
