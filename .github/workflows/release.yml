@@ -84,5 +84,4 @@ jobs:
           installers-regex: 'commitlint_installer\.msi$'
           version: ${{ env.VERSION }}
           release-tag: ${{ github.ref_name }}
-          token: ${{ secrets.PAT }}
-          fork-user: jurienhamaker
+          token: ${{ secrets.WINGET_TOKEN }}
