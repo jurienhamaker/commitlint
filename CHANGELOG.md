@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/jurienhamaker/commitlint/compare/v1.6.0...v1.7.0) (2025-06-20)
+
+
+### Features
+
+* **release:** Add winget update ([7db11b2](https://github.com/jurienhamaker/commitlint/commit/7db11b21cac0607de124ec8fd3a9e8149fa5084c))
+
 ## [1.6.0](https://github.com/jurienhamaker/commitlint/compare/v1.5.0...v1.6.0) (2025-06-17)
 
 
