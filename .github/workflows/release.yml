@@ -8,8 +8,14 @@ on:
 
 name: release
 jobs:
+  set-env-version:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Set env
+      run: echo "VERSION=$(echo "${{ github.ref_name }}" | sed 's/v//g')" >> $GITHUB_ENV
   goreleaser:
     runs-on: ubuntu-latest
+    needs: set-env-version
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -64,19 +70,19 @@ jobs:
           asset_name: commitlint_installer.msi
           tag: ${{ github.ref_name }}
           overwrite: true
-  # update-winget:
-  #   name: Publish winget package
-  #   runs-on: ubuntu-latest
-  #   needs: create-msi
-  #   steps:
-  #     - name: Submit package to Windows Package Manager Community Repository
-  #       uses: vedantmgoyal2009/winget-releaser@v2
-  #       with:
-  #         identifier: Commitlint.Commitlint
-  #         # Exclude all `*-msvc-full.msi` full release files,
-  #         # and only the default `*msvc.msi` files will be included
-  #         installers-regex: 'commitlint_installer\.msi$'
-  #         version: 1.4.0
-  #         release-tag: v1.4.0
-  #         token: ${{ secrets.PAT }}
-  #         fork-user: jurienhamaker
+  update-winget:
+    name: Publish winget package
+    runs-on: ubuntu-latest
+    needs: create-msi
+    steps:
+      - name: Submit package to Windows Package Manager Community Repository
+        uses: vedantmgoyal2009/winget-releaser@v2
+        with:
+          identifier: Commitlint.Commitlint
+          # Exclude all `*-msvc-full.msi` full release files,
+          # and only the default `*msvc.msi` files will be included
+          installers-regex: 'commitlint_installer\.msi$'
+          version: ${{ env.VERSION }}
+          release-tag: ${{ github.ref_name }}
+          token: ${{ secrets.PAT }}
+          fork-user: jurienhamaker
