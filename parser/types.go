@@ -37,6 +37,7 @@ type ConventionalCommit struct {
 	Major   bool     `yaml:"major"`
 	Minor   bool     `yaml:"minor"`
 	Patch   bool     `yaml:"patch"`
+	Fixup   bool     `yaml:"fixup"`
 }
 
 // Compare compares this version to another version. This

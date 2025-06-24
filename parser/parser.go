@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	baseFormatRegex       = regexp.MustCompile(`(?is)^(?:(?P<type>[^\(!:]+)(?:\((?P<scope>[^\)]+)\))?(?P<breaking>!)?: (?P<subject>[^\n\r]+))[\n\r]?(?P<remainder>.*)`)
+	baseFormatRegex       = regexp.MustCompile(`(?is)^(?:(?P<fixup>fixup[\!]?[ ]?)?(?P<type>[^\(!:]+)(?:\((?P<scope>[^\)]+)\))?(?P<breaking>!)?: (?P<subject>[^\n\r]+))[\n\r]?(?P<remainder>.*)`)
 	bodyFooterFormatRegex = regexp.MustCompile(`(?isU)^(?:(?P<body>.*))?[\n\r]?(?P<footer>(?-U:(?:[\w\-]+(?:: | #).*|(?i:BREAKING CHANGE:.*))+))`)
 	footerFormatRegex     = regexp.MustCompile(`(?s)^(?P<footer>(?i:(?:[\w\-]+(?:: | #).*|(?i:BREAKING CHANGE:.*))+))`)
 )
@@ -83,6 +83,7 @@ func ParseConventionalCommit(message string) (commit *ConventionalCommit) {
 		Header:  strings.Trim(parts[0], "\n"),
 		Body:    result["body"],
 		Footer:  footers,
+		Fixup:   result["fixup"] != "",
 	}
 
 	if commit.Major {
