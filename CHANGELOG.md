@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.0](https://github.com/jurienhamaker/commitlint/compare/v1.7.1...v1.8.0) (2025-06-24)
+
+
+### Features
+
+* add release-please config ([052ac7c](https://github.com/jurienhamaker/commitlint/commit/052ac7c119b3ec9824bd047717d42ad176fbb2bc))
+
 ## [1.7.1](https://github.com/jurienhamaker/commitlint/compare/v1.7.0...v1.7.1) (2025-06-20)
 
 
