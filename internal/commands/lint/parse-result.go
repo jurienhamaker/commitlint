@@ -12,7 +12,7 @@ import (
 type ParseResult map[validation.ValidationState]int
 
 func parseResult(message string, config *config.Config, result validation.ValidationsResult) (total int, parseResult ParseResult) {
-	fmt.Println("\n")
+	fmt.Println(" ")
 
 	success := result[validation.ValidationStateSuccess]
 	warning := result[validation.ValidationStateWarning]

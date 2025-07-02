@@ -8,9 +8,10 @@ import (
 )
 
 var (
-	SUBJECT_CASE_NUMERIC      = parser.ParseConventionalCommit("feat: 1.0.0").Subject
-	SUBJECT_CASE_LOWERCASE    = parser.ParseConventionalCommit("feat: subject").Subject
-	SUBJECT_CASE_SENTENCECASE = parser.ParseConventionalCommit("feat: Subject is in sentence case").Subject
+	SUBJECT_CASE_NUMERIC            = parser.ParseConventionalCommit("feat: 1.0.0").Subject
+	SUBJECT_CASE_LOWERCASE          = parser.ParseConventionalCommit("feat: subject").Subject
+	SUBJECT_CASE_SENTENCECASE       = parser.ParseConventionalCommit("feat: Subject is in sentence case").Subject
+	SUBJECT_CASE_NUMBERS_AND_DASHES = parser.ParseConventionalCommit("feat(scope): Subject contains a 0 and some-dashes").Subject
 )
 
 func TestSubjectCaseNumericAlwaysLowercaseShouldSucceed(t *testing.T) {
@@ -153,5 +154,18 @@ func TestSubjectCaseSentenceCaseNeverSentenceCaseShouldFail(t *testing.T) {
 
 	if level != validation.ValidationStateError {
 		t.Errorf(`Expected level to equal "error" got "%s"`, validation.ValidationStateName[level])
+	}
+}
+
+func TestSubjectCaseNumbersAndDashesNeverPascalCaseOrUpperCaseShouldSucceed(t *testing.T) {
+	_, level := subjectCaseValidator(
+		SUBJECT_CASE_NUMBERS_AND_DASHES,
+		validation.ValidationStateError,
+		false,
+		[]string{"pascal-case", "upper-case"},
+	)
+
+	if level != validation.ValidationStateSuccess {
+		t.Errorf(`Expected level to equal "success" got "%s"`, validation.ValidationStateName[level])
 	}
 }

@@ -42,10 +42,22 @@ var CaseStringToCase = map[string]Case{
 	"sentencecase":  SentenceCase,
 }
 
-func UpperCaseFirst(input string) string {
+func ToUpperCaseFirst(input string) string {
 	first := input[0:1]
 	rest := input[1:]
 	return strings.ToUpper(first) + rest
+}
+
+func ToPascalCase(input string) string {
+	reg := regexp.MustCompile(`\w+\W?`)
+	splitted := reg.FindAllString(input, -1)
+	newSplitted := []string{}
+
+	for _, v := range splitted {
+		newSplitted = append(newSplitted, ToUpperCaseFirst(v))
+	}
+
+	return strings.Join(newSplitted, "")
 }
 
 func ToCase(input string, caseType Case) string {
@@ -59,11 +71,11 @@ func ToCase(input string, caseType Case) string {
 	case SnakeCase:
 		return strcase.ToSnake(input)
 	case PascalCase:
-		return strcase.ToCamel(input)
+		return ToPascalCase(input)
 	case KebabCase:
 		return strcase.ToKebab(input)
 	case SentenceCase:
-		return UpperCaseFirst(input)
+		return ToUpperCaseFirst(input)
 	}
 
 	return input
@@ -76,8 +88,7 @@ func EnsureCase(input string, caseType Case) bool {
 	input = strings.TrimRight(input, ".") // When we have a body full stop we want to remove it.
 	transformed := ToCase(input, caseType)
 
-	match, _ := regexp.MatchString(`\d`, transformed)
-	if transformed == "" || match {
+	if transformed == "" {
 		return true
 	}
 
