@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.1](https://github.com/jurienhamaker/commitlint/compare/v1.8.0...v1.8.1) (2025-07-02)
+
+
+### Bug Fixes
+
+* **core-validators:** Better parsing for pascal case ([0eeaf19](https://github.com/jurienhamaker/commitlint/commit/0eeaf19cfac8503476d7e211c5a1f7d34f967f3c))
+
 ## [1.8.0](https://github.com/jurienhamaker/commitlint/compare/v1.7.1...v1.8.0) (2025-06-24)
 
 
