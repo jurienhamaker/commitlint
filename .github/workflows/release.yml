@@ -23,6 +23,8 @@ jobs:
           fetch-depth: 0
       - name: Set up Go
         uses: actions/setup-go@v5
+      - name: Install Snapcraft
+        uses: samuelmeuli/action-snapcraft@v3
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v6
         env:
@@ -33,6 +35,7 @@ jobs:
           AUR_PRIVATE_KEY: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
           AUR_USERNAME: ${{ secrets.AUR_USERNAME }}
           AUR_EMAIL: ${{ secrets.AUR_EMAIL }}
+          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
           # GORELEASER_KEY: ${{ secrets.GORELEASER_KEY }}
         with:
           # either 'goreleaser' (default) or 'goreleaser-pro'

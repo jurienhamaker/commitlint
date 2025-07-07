@@ -72,3 +72,12 @@ homebrew_casks:
       owner: jurienhamaker
       name: homebrew-commitlint-go
       token: "{{ .Env.GITHUB_PERSONAL_AUTH_TOKEN }}"
+
+snapcrafts:
+  - name: commitlint
+    title: Commitlint
+    summary: A lightweight, fast, and cross-platform tool for linting Git commit messages
+    description: |
+      Linting commit messages helps maintain a consistent commit history, which is critical for readability, automation, and collaboration across teams.
+    grade: stable
+    publish: true
