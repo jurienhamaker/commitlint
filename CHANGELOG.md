@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.2](https://github.com/jurienhamaker/commitlint/compare/v1.8.1...v1.8.2) (2025-07-07)
+
+
+### Bug Fixes
+
+* **utils/case:** Make sure we lowercase everything after the first word for sentence case ([3b10616](https://github.com/jurienhamaker/commitlint/commit/3b10616650b276b3be67ba3b4359528ad4f793b4))
+
 ## [1.8.1](https://github.com/jurienhamaker/commitlint/compare/v1.8.0...v1.8.1) (2025-07-02)
 
 
