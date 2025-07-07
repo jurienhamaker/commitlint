@@ -33,6 +33,7 @@ jobs:
           AUR_PRIVATE_KEY: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
           AUR_USERNAME: ${{ secrets.AUR_USERNAME }}
           AUR_EMAIL: ${{ secrets.AUR_EMAIL }}
+          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
           # GORELEASER_KEY: ${{ secrets.GORELEASER_KEY }}
         with:
           # either 'goreleaser' (default) or 'goreleaser-pro'
