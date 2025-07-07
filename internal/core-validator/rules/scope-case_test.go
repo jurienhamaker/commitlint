@@ -11,7 +11,7 @@ var (
 	SCOPE_CASE_EMPTY              = parser.ParseConventionalCommit("test: subject").Scope
 	SCOPE_CASE_LOWERCASE          = parser.ParseConventionalCommit("test(scope): subject").Scope
 	SCOPE_CASE_KEBABCASE          = parser.ParseConventionalCommit("test(scope-kebab): subject").Scope
-	SCOPE_CASE_SENTENCECASE       = parser.ParseConventionalCommit("test(Scope Start): subject").Scope
+	SCOPE_CASE_SENTENCECASE       = parser.ParseConventionalCommit("test(Scope start): subject").Scope
 	SCOPE_CASE_MULTIPLE_LOWERCASE = parser.ParseConventionalCommit("test(lower/case,multiple): subject").Scope
 	SCOPE_CASE_MULTIPLE_CAMELCASE = parser.ParseConventionalCommit("test(camelCase\\multipleScope, Options): subject").Scope
 )

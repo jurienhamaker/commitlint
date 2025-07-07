@@ -48,6 +48,12 @@ func ToUpperCaseFirst(input string) string {
 	return strings.ToUpper(first) + rest
 }
 
+func ToSentenceCase(input string) string {
+	first := input[0:1]
+	rest := input[1:]
+	return strings.ToUpper(first) + strings.ToLower(rest)
+}
+
 func ToPascalCase(input string) string {
 	reg := regexp.MustCompile(`\w+\W?`)
 	splitted := reg.FindAllString(input, -1)
@@ -75,7 +81,7 @@ func ToCase(input string, caseType Case) string {
 	case KebabCase:
 		return strcase.ToKebab(input)
 	case SentenceCase:
-		return ToUpperCaseFirst(input)
+		return ToSentenceCase(input)
 	}
 
 	return input
