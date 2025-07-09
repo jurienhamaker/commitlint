@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.0](https://github.com/jurienhamaker/commitlint/compare/v1.8.2...v1.9.0) (2025-07-09)
+
+
+### Features
+
+* add snapcraft release ([5e44f1c](https://github.com/jurienhamaker/commitlint/commit/5e44f1c85210a7019b5daa28ac52dffc88b720d6))
+
 ## [1.8.2](https://github.com/jurienhamaker/commitlint/compare/v1.8.1...v1.8.2) (2025-07-07)
 
 
